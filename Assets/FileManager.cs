@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 using UnityEngine.Video;
+using System;
+#if UNITY_STANDALONE_WIN
+using AnotherFileBrowser.Windows;
+#endif
 
 public class FileManager : MonoBehaviour
 {
@@ -27,14 +28,14 @@ public class FileManager : MonoBehaviour
 
     public void OpenExplorer()
     {
-        photo_path = EditorUtility.OpenFilePanel("Get photo.", "", "png");
+        photo_path = OpenFileBrowser("png");
         GetImage();
         url_display.GetComponent<Text>().text = photo_path;
     }
 
     public void ChangeVideo()
     {
-        video_path = EditorUtility.OpenFilePanel("Change photo.", "", "mp4");
+        video_path = OpenFileBrowser("mp4");
         //Record the old video;
         videoPlayer.Stop();
         location = videoPlayer.frame;
@@ -94,5 +95,27 @@ public class FileManager : MonoBehaviour
     public string getPhoto()
     {
         return photo_path;
+    }
+
+    // reference: https://github.com/SrejonKhan/AnotherFileBrowser Accessed on: 23rd Feb 2021
+    // <summary>
+    /// FileDialog for picking a single file
+    /// </summary>
+    public string OpenFileBrowser(string typee)
+    {
+#if UNITY_STANDALONE_WIN
+        var bp = new BrowserProperties();
+        bp.filter = typee + " files (*." + typee + ")|*." + typee;
+        bp.filterIndex = 0;
+
+        string res = "";
+
+        new FileBrowser().OpenFileBrowser(bp, result =>
+        {
+            res = result;
+        });
+
+        return res;
+#endif
     }
 }

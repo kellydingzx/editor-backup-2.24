@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
-using UnityEditor;
-//using System.Windows.Forms;
+#if UNITY_STANDALONE_WIN
+using AnotherFileBrowser.Windows;
+#endif
+
 
 
 public class Video_Manager : MonoBehaviour
@@ -14,7 +16,7 @@ public class Video_Manager : MonoBehaviour
 
     public void getVideo()
     {
-        url = EditorUtility.OpenFilePanel("get photo.", "", "mp4");
+        url = OpenFileBrowser("mp4");
         if (url != null)
         {
             videoPlayer.url = url;
@@ -31,5 +33,26 @@ public class Video_Manager : MonoBehaviour
         }
     }
 
-    
+    // reference: https://github.com/SrejonKhan/AnotherFileBrowser Accessed on: 23rd Feb 2021
+    // <summary>
+    /// FileDialog for picking a single file
+    /// </summary>
+    public string OpenFileBrowser(string typee)
+    {
+#if UNITY_STANDALONE_WIN
+        var bp = new BrowserProperties();
+        bp.filter = typee + " files (*." + typee + ")|*." + typee;
+        bp.filterIndex = 0;
+
+        string res = "";
+
+        new FileBrowser().OpenFileBrowser(bp, result =>
+        {
+            res = result;
+        });
+
+        return res;
+#endif
+    }
+
 }

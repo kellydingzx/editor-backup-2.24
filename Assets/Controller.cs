@@ -22,14 +22,15 @@ public class Controller : MonoBehaviour
     public GameObject start_time;
     public GameObject photoDisplay;
     public GameObject videoDisplay;
+
     //Private variables 
     private Hashtable all_hotspots;
+    private string current_id;
 
    
     void Start()
     {
         all_hotspots = load();
-        all_hotspots = new Hashtable();
         window.SetActive(false);
         back_button.SetActive(false);
     }
@@ -57,7 +58,7 @@ public class Controller : MonoBehaviour
                 if(hit.transform.gameObject.tag == "Trigger")
                 {
                     window.SetActive(true);
-                    string current_id = hit.transform.gameObject.GetInstanceID().ToString();
+                    current_id = hit.transform.gameObject.GetInstanceID().ToString();
                     id_display.GetComponent<Text>().text = current_id;
                     Hotspot h = (Hotspot)all_hotspots[current_id];
                     start_time.GetComponent<Text>().text = h.getStart().ToString();
@@ -117,20 +118,23 @@ public class Controller : MonoBehaviour
         string url_photo = photoDisplay.GetComponent<Text>().text;
         string url_video = videoDisplay.GetComponent<Text>().text;
 
-        string current_id = id_display.GetComponent<Text>().text;
         Hotspot h = (Hotspot)all_hotspots[current_id];
         h.SetMoreInfo(name, text, url_photo, url_video);
+        print(h.getName());
         all_hotspots[current_id] = h;
+        print(((Hotspot)all_hotspots[current_id]).getName());
 
         Debug.Log(name);
         Debug.Log(text);
         Debug.Log(url_photo);
         Debug.Log(url_video);
 
-        nameinputField.GetComponent<InputField>().text = "Hotspot Name";
-        textInputField.GetComponent<InputField>().text = "Description";
-        photoDisplay.GetComponent<Text>().text = "Photo path here.";
-        videoDisplay.GetComponent<Text>().text = "Video path here.";
+        nameinputField.GetComponent<InputField>().text = "";
+        textInputField.GetComponent<InputField>().text = "";
+        photoDisplay.GetComponent<Text>().text = "";
+        videoDisplay.GetComponent<Text>().text = "";
+
+        closeWindow();
     }
     class Hotspot
     {
@@ -248,4 +252,6 @@ public class Controller : MonoBehaviour
         }
         return r;
     }
+
+    
 }

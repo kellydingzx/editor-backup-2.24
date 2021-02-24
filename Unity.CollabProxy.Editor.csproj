@@ -289,6 +289,9 @@
     <Reference Include="System.Windows.Forms">
       <HintPath>D:/Desktop/SC360VideoEditor/Assets/Plugins/System.Windows.Forms.dll</HintPath>
     </Reference>
+    <Reference Include="Ookii.Dialogs">
+      <HintPath>D:/Desktop/SC360VideoEditor/Assets/Plugins/Ookii.Dialogs.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>D:/Desktop/SC360VideoEditor/Library/PackageCache/com.unity.ext.nunit@1.0.0/net35/unity-custom/nunit.framework.dll</HintPath>
     </Reference>
