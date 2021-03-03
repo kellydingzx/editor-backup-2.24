@@ -97,6 +97,11 @@ public class FileManager : MonoBehaviour
         return photo_path;
     }
 
+    public void loadVideoOntoPanel(string videoURL){
+        WWW www = new WWW("file:///" + videoURL);
+        image.texture = www.texture;
+    }
+
     // reference: https://github.com/SrejonKhan/AnotherFileBrowser Accessed on: 23rd Feb 2021
     // <summary>
     /// FileDialog for picking a single file

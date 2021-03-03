@@ -82,6 +82,7 @@
     <Compile Include="Assets\Scripts\VideoProgressBar.cs" />
     <Compile Include="Assets\Scripts\ZonePopUpController.cs" />
     <Compile Include="Assets\Video_Manager.cs" />
+    <Compile Include="Assets\Warning.cs" />
     <Compile Include="Assets\spriteBehavior.cs" />
     <None Include="Assets\Materials\Shaders\Skybox-Panoramic.shader" />
     <Reference Include="UnityEngine">

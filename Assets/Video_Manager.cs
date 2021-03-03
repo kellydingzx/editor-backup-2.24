@@ -11,21 +11,24 @@ using AnotherFileBrowser.Windows;
 public class Video_Manager : MonoBehaviour
 {
     public VideoPlayer videoPlayer;
+    public GameObject packageManager;
     public string url;
 
     public void getVideo()
     {
         url = OpenFileBrowser("mp4");
-        if (url != null)
-        {
-            videoPlayer.url = url;
-        }
-        videoPlayer.Play();
+        string new_url = packageManager.GetComponent<PackageManager>().addMainVideo(url);
+        addUrlToplayer(new_url);
 
     }
 
+    public void addUrlToplayer(string new_url){
+        videoPlayer.url = new_url;
+        videoPlayer.Play();
+    }
+
     // reference: https://github.com/SrejonKhan/AnotherFileBrowser Accessed on: 23rd Feb 2021
-    /// FileDialog for picking a single file
+    // FileDialog for picking a single file
     public string OpenFileBrowser(string typee)
     {
 #if UNITY_STANDALONE_WIN

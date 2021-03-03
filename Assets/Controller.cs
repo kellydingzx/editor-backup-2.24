@@ -17,40 +17,40 @@ public class Controller : MonoBehaviour
     //Buttons
     public GameObject hotspot;
     public GameObject back_button;
+    
     //displays
     public GameObject id_display;
     public GameObject start_time;
     public GameObject photoDisplay;
     public GameObject videoDisplay;
     public GameObject packagePathDisplay;
+    
     //Controllers
     public GameObject packageManager;
+    public GameObject fileManager;
 
     //Private variables 
     private Hashtable all_hotspots;
     private string current_id;
 
     //Status variables
-    private bool ready;
+    private bool loaded;
     private string packagePath;
    
     void Start()
     {
+        loaded = false;
         window.SetActive(false);
         back_button.SetActive(false);
     }
 
     void Update(){
-        if(packageManager.GetComponent<PackageManager>().path_ready && !ready){   
-            if(packageManager.GetComponent<PackageManager>().is_new){
-                all_hotspots = new Hashtable();
-            }else{
-                all_hotspots = load();
-            }
+        if(packageManager.GetComponent<PackageManager>().path_ready && !loaded){   
             packagePath = packagePathDisplay.GetComponent<Text>().text;
-            ready = true;
+            all_hotspots = load();
+            loaded = true;
         }
-        if(ready){
+        if(packageManager.GetComponent<PackageManager>().mainVideo_ready){
             inner_update();
         }
     }
@@ -81,8 +81,8 @@ public class Controller : MonoBehaviour
                     Debug.Log(current_id);
                     id_display.GetComponent<Text>().text = current_id;
                     Hotspot h = (Hotspot)all_hotspots[current_id];
-                    start_time.GetComponent<Text>().text = h.getStart().ToString();
-                    nameinputField.GetComponent<InputField>().text = h.getName();
+                    Debug.Log(h.getName());
+                    loadHotspot(h);
                     videoPlayer.Pause();
                 }
             }
@@ -104,9 +104,18 @@ public class Controller : MonoBehaviour
         }
     }
 
+    public void loadHotspot(Hotspot hs){
+        start_time.GetComponent<Text>().text = hs.getStart().ToString();
+        nameinputField.GetComponent<InputField>().text = hs.getName();
+        photoDisplay.GetComponent<Text>().text = hs.getUrl_photo();
+        fileManager.GetComponent<FileManager>().loadVideoOntoPanel(hs.getUrl_photo());
+        Debug.Log(hs.getName());
+        Debug.Log(hs.getUrl_photo());
+    }
+
     public void saveJson()
     {
-        save(all_hotspots);
+        save(all_hotspots, packagePath);
     }
 
     public void closeWindow()
@@ -139,6 +148,14 @@ public class Controller : MonoBehaviour
         string url_photo = photoDisplay.GetComponent<Text>().text;
         string url_video = videoDisplay.GetComponent<Text>().text;
 
+        if (!url_photo.Equals("Photo path here")){ 
+            url_photo = packageManager.GetComponent<PackageManager>().copyFile(url_photo, name, "Pictures");
+        }
+
+        if (!url_video.Equals("Video path here.")) { 
+            url_video = packageManager.GetComponent<PackageManager>().copyFile(url_video, name, "Videos");
+        }
+
         Hotspot h = (Hotspot)all_hotspots[current_id];
         h.SetMoreInfo(name, text, url_photo, url_video);
         all_hotspots[current_id] = h;
@@ -150,7 +167,8 @@ public class Controller : MonoBehaviour
 
         closeWindow();
     }
-    class Hotspot
+
+    public class Hotspot
     {
         GameObject hotspot;
         double start_time;
@@ -165,6 +183,17 @@ public class Controller : MonoBehaviour
             this.hotspot = a;
             this.start_time = start;
             this.end_time = end;
+        }
+
+         public Hotspot(GameObject a, double start, double end, string name, string text, string url_photo, string url_video)
+        {
+            this.hotspot = a;
+            this.start_time = start;
+            this.end_time = end;
+            this.name = name;
+            this.text = text;
+            this.url_photo = url_photo;
+            this.url_video = url_video;
         }
         public double getStart()
         {
@@ -203,8 +232,12 @@ public class Controller : MonoBehaviour
         {
             if(!name.Equals("Hotspot Name")) { this.name = name;}
             if(!text.Equals("Description")) { this.text = text; }
-            if (!url_photo.Equals("Photo path here")) { this.url_photo = url_photo;}
-            if (!url_video.Equals("Video path here.")) { this.url_video = url_video; }
+            if (!url_photo.Equals("Photo path here")){ 
+                this.url_photo = url_photo;
+            }
+            if (!url_video.Equals("Video path here.")) { 
+                this.url_video = url_photo;
+            }
                 
         }
     }
@@ -235,7 +268,7 @@ public class Controller : MonoBehaviour
             rot = _hotspot.transform.rotation;
         }
     }
-    public void save(Hashtable a)
+    public void save(Hashtable a, string json_folder)
     {
         Debug.Log("Saving");
         List<string> jsonlist = new List<string>();
@@ -251,7 +284,7 @@ public class Controller : MonoBehaviour
         HotspotDatas hotspotdatas = new HotspotDatas() { hotspotdatas = jsons };
         string json = JsonUtility.ToJson(hotspotdatas);
         //Debug.Log(json);
-        string json_path = System.IO.Path.Combine(packagePath, "hotspots.json");
+        string json_path = System.IO.Path.Combine(json_folder, "hotspots.json");
         File.WriteAllText(json_path, json);
     }
     public Hashtable load()
@@ -264,8 +297,9 @@ public class Controller : MonoBehaviour
         {
             HotspotData h1 = JsonUtility.FromJson<HotspotData>(json);
             GameObject a = Instantiate(hotspot, h1.worldPosition, h1.rot);
-            r.Add(a.GetInstanceID().ToString(), new Hotspot(a, h1.start_time, h1.end_time));
+            r.Add(a.GetInstanceID().ToString(), new Hotspot(a, h1.start_time, h1.end_time, h1.name, h1.text, h1.url_photo, h1.url_video));
         }
+        Debug.Log("addded");
         return r;
     }
 
