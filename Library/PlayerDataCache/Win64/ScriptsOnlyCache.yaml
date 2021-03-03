@@ -5,6 +5,7 @@ ScriptsOnlyBuild:
     - DragEventHandler
     - FileManager
     - Look_Around
+    - PackageManager
     - SoundSliderBehaviour
     - SoundSliderHandler
     - VideoController
@@ -65,69 +66,71 @@ ScriptsOnlyBuild:
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 11272}
+      Script: {instanceID: 11274}
     - Class: 114
-      Script: {instanceID: 11292}
-    - Class: 114
-      Script: {instanceID: 11458}
+      Script: {instanceID: 11294}
     - Class: 114
       Script: {instanceID: 11460}
     - Class: 114
-      Script: {instanceID: 11498}
+      Script: {instanceID: 11462}
     - Class: 114
-      Script: {instanceID: 11674}
+      Script: {instanceID: 11500}
     - Class: 114
       Script: {instanceID: 11676}
     - Class: 114
-      Script: {instanceID: 11692}
+      Script: {instanceID: 11678}
     - Class: 114
-      Script: {instanceID: 11804}
+      Script: {instanceID: 11694}
     - Class: 114
-      Script: {instanceID: 11824}
+      Script: {instanceID: 11806}
     - Class: 114
-      Script: {instanceID: 11828}
+      Script: {instanceID: 11826}
     - Class: 114
       Script: {instanceID: 11830}
     - Class: 114
-      Script: {instanceID: 11896}
+      Script: {instanceID: 11832}
     - Class: 114
-      Script: {instanceID: 11922}
+      Script: {instanceID: 11900}
     - Class: 114
-      Script: {instanceID: 12000}
+      Script: {instanceID: 11926}
     - Class: 114
-      Script: {instanceID: 12046}
+      Script: {instanceID: 12006}
     - Class: 114
-      Script: {instanceID: 12100}
+      Script: {instanceID: 12050}
     - Class: 114
-      Script: {instanceID: 12214}
+      Script: {instanceID: 12104}
     - Class: 114
-      Script: {instanceID: 12322}
+      Script: {instanceID: 12218}
     - Class: 114
-      Script: {instanceID: 12490}
+      Script: {instanceID: 12326}
     - Class: 114
-      Script: {instanceID: 12492}
+      Script: {instanceID: 12496}
     - Class: 114
-      Script: {instanceID: 12500}
+      Script: {instanceID: 12498}
     - Class: 114
-      Script: {instanceID: 12526}
+      Script: {instanceID: 12506}
     - Class: 114
-      Script: {instanceID: 12540}
+      Script: {instanceID: 12532}
     - Class: 114
-      Script: {instanceID: 12788}
+      Script: {instanceID: 12546}
     - Class: 114
-      Script: {instanceID: 12924}
+      Script: {instanceID: 12794}
     - Class: 114
-      Script: {instanceID: 12942}
+      Script: {instanceID: 12930}
     - Class: 114
-      Script: {instanceID: 13056}
+      Script: {instanceID: 12948}
     - Class: 114
-      Script: {instanceID: 13148}
+      Script: {instanceID: 13040}
     - Class: 114
-      Script: {instanceID: 13180}
+      Script: {instanceID: 13064}
     - Class: 114
-      Script: {instanceID: 31990}
+      Script: {instanceID: 13156}
     - Class: 114
-      Script: {instanceID: 31992}
+      Script: {instanceID: 13188}
+    - Class: 114
+      Script: {instanceID: 15832}
+    - Class: 114
+      Script: {instanceID: 15834}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -347,7 +350,7 @@ ScriptsOnlyBuild:
     className: Shadow
   - hash:
       serializedVersion: 2
-      Hash: f6a168fd22a905e61373a83a555de0d5
+      Hash: bbe20b79407851fe1007323b51e9eb95
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Controller
@@ -393,12 +396,6 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: VideoController
-  - hash:
-      serializedVersion: 2
-      Hash: 02c4e07618a6303d22d36df7b9902dad
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: InputPanelController
   - hash:
       serializedVersion: 2
       Hash: 2d47ecb5d4b86ee9fe85a8779850f559
@@ -479,7 +476,7 @@ ScriptsOnlyBuild:
     className: SignalReceiver
   - hash:
       serializedVersion: 2
-      Hash: d4f3c88f1c323b612e69470db565705f
+      Hash: 7947308530067a11d0ff729759dfe43c
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Video_Manager
@@ -561,6 +558,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TMP_StyleSheet
+  - hash:
+      serializedVersion: 2
+      Hash: 4423b70a1f59c3f52f1d8cbbe92792d0
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: PackageManager
   - hash:
       serializedVersion: 2
       Hash: 8cd1cbba27f3cb1717254f668e9e0d5a
@@ -681,12 +684,6 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
-  - hash:
-      serializedVersion: 2
-      Hash: e5d83d8736b02d4479d5bb358ec0ff9c
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: choose
   platform: 19
   scenePathNames:
   - Assets/Scenes/SampleScene.unity

@@ -30,9 +30,9 @@ public class ZonePopUpController : MonoBehaviour
 
     public void DisablePopUp() {
         if(isEnabled == true) {
-            zonePopUp.interactable = false;
-            zonePopUp.alpha = 0;
-            isEnabled = false;
+            zonePopUp.interactable = true;
+            zonePopUp.alpha = 1;
+            isEnabled = true;
         }
     }
                 

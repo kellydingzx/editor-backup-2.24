@@ -16,12 +16,12 @@ public class DragEventHandler : MonoBehaviour, IDragHandler, IEndDragHandler, IP
 
 
     void Start() {
-        canvasGroup.interactable = false;
-        canvasGroup.alpha = 0;
+        canvasGroup.interactable = true;
+        canvasGroup.alpha = 1;
     }
 
     public void OnPointerEnter(PointerEventData eventData) {
-        canvasGroup.DOFade(0.0f, 0.25f).SetEase(Ease.OutSine).OnComplete(() => { canvasGroup.interactable = false; });
+        canvasGroup.DOFade(0.0f, 0.25f).SetEase(Ease.OutSine).OnComplete(() => { canvasGroup.interactable = true; });
     }
 
     public void OnPointerExit(PointerEventData eventData) {

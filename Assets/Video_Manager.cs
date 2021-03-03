@@ -10,9 +10,8 @@ using AnotherFileBrowser.Windows;
 
 public class Video_Manager : MonoBehaviour
 {
-    public GameObject chose_button;
     public VideoPlayer videoPlayer;
-    private string url;
+    public string url;
 
     public void getVideo()
     {
@@ -24,19 +23,9 @@ public class Video_Manager : MonoBehaviour
         videoPlayer.Play();
 
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        if (url != null)
-        {
-            videoPlayer = GetComponent<VideoPlayer>();
-        }
-    }
 
     // reference: https://github.com/SrejonKhan/AnotherFileBrowser Accessed on: 23rd Feb 2021
-    // <summary>
     /// FileDialog for picking a single file
-    /// </summary>
     public string OpenFileBrowser(string typee)
     {
 #if UNITY_STANDALONE_WIN

@@ -64,18 +64,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\360 helpers\Look_Around.cs" />
     <Compile Include="Assets\Controller.cs" />
-    <Compile Include="Assets\DOTween\Modules\DOTweenModuleAudio.cs" />
-    <Compile Include="Assets\DOTween\Modules\DOTweenModulePhysics.cs" />
-    <Compile Include="Assets\DOTween\Modules\DOTweenModulePhysics2D.cs" />
-    <Compile Include="Assets\DOTween\Modules\DOTweenModuleSprite.cs" />
-    <Compile Include="Assets\DOTween\Modules\DOTweenModuleUI.cs" />
-    <Compile Include="Assets\DOTween\Modules\DOTweenModuleUnityVersion.cs" />
-    <Compile Include="Assets\DOTween\Modules\DOTweenModuleUtils.cs" />
     <Compile Include="Assets\FileManager.cs" />
-    <Compile Include="Assets\InputPanelController.cs" />
+    <Compile Include="Assets\Look_Around.cs" />
+    <Compile Include="Assets\PackageManager.cs" />
     <Compile Include="Assets\Scripts\AddZoneController.cs" />
+    <Compile Include="Assets\Scripts\ChooseFile.cs" />
     <Compile Include="Assets\Scripts\DragEventHandler.cs" />
     <Compile Include="Assets\Scripts\FileBrowser.cs" />
     <Compile Include="Assets\Scripts\HighlightMgr.cs" />
@@ -87,32 +81,9 @@
     <Compile Include="Assets\Scripts\VideoController.cs" />
     <Compile Include="Assets\Scripts\VideoProgressBar.cs" />
     <Compile Include="Assets\Scripts\ZonePopUpController.cs" />
-    <Compile Include="Assets\Scripts\choose.cs" />
     <Compile Include="Assets\Video_Manager.cs" />
     <Compile Include="Assets\spriteBehavior.cs" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
-    <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
-    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
-    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
-    <None Include="Assets\Shaders\Skybox-Panoramic.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
-    <None Include="Assets\DOTween\readme.txt" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
-    <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
-    <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
+    <None Include="Assets\Materials\Shaders\Skybox-Panoramic.shader" />
     <Reference Include="UnityEngine">
       <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
@@ -296,14 +267,14 @@
     <Reference Include="UnityEditor">
       <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
     </Reference>
-    <Reference Include="DOTween">
-      <HintPath>D:/Desktop/SC360VideoEditor/Assets/DOTween/DOTween.dll</HintPath>
+    <Reference Include="Ookii.Dialogs">
+      <HintPath>D:/Desktop/SC360VideoEditor/Assets/Plugins/Ookii.Dialogs.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows.Forms">
       <HintPath>D:/Desktop/SC360VideoEditor/Assets/Plugins/System.Windows.Forms.dll</HintPath>
     </Reference>
-    <Reference Include="Ookii.Dialogs">
-      <HintPath>D:/Desktop/SC360VideoEditor/Assets/Plugins/Ookii.Dialogs.dll</HintPath>
+    <Reference Include="DOTween">
+      <HintPath>D:/Desktop/SC360VideoEditor/Assets/Plugins/DOTween/DOTween.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:/Program Files/Unity/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
@@ -667,6 +638,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{06335A42-1855-2417-6B7F-5EC3BCF5B200}</Project>
+      <Name>Assembly-CSharp-firstpass</Name>
+    </ProjectReference>
     <ProjectReference Include="Unity.Timeline.Editor.csproj">
       <Project>{FB7F9F6E-72A8-8427-7688-7A41F7A5B0B2}</Project>
       <Name>Unity.Timeline.Editor</Name>

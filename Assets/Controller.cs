@@ -22,21 +22,40 @@ public class Controller : MonoBehaviour
     public GameObject start_time;
     public GameObject photoDisplay;
     public GameObject videoDisplay;
+    public GameObject packagePathDisplay;
+    //Controllers
+    public GameObject packageManager;
 
     //Private variables 
     private Hashtable all_hotspots;
     private string current_id;
 
+    //Status variables
+    private bool ready;
+    private string packagePath;
    
     void Start()
     {
-        all_hotspots = load();
         window.SetActive(false);
         back_button.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
+    void Update(){
+        if(packageManager.GetComponent<PackageManager>().path_ready && !ready){   
+            if(packageManager.GetComponent<PackageManager>().is_new){
+                all_hotspots = new Hashtable();
+            }else{
+                all_hotspots = load();
+            }
+            packagePath = packagePathDisplay.GetComponent<Text>().text;
+            ready = true;
+        }
+        if(ready){
+            inner_update();
+        }
+    }
+
+    void inner_update()
     {
         //Add Hotspot on right click
         if (Input.GetMouseButtonDown(1))
@@ -54,21 +73,23 @@ public class Controller : MonoBehaviour
         {
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if(Physics.Raycast(ray, out hit, 100.0f)){
+            if(Physics.Raycast(ray, out hit)){
                 if(hit.transform.gameObject.tag == "Trigger")
                 {
                     window.SetActive(true);
                     current_id = hit.transform.gameObject.GetInstanceID().ToString();
+                    Debug.Log(current_id);
                     id_display.GetComponent<Text>().text = current_id;
                     Hotspot h = (Hotspot)all_hotspots[current_id];
                     start_time.GetComponent<Text>().text = h.getStart().ToString();
+                    nameinputField.GetComponent<InputField>().text = h.getName();
                     videoPlayer.Pause();
                 }
             }
         }
 
+        //check the validity of hotspot in terms of time
         double current_time = videoPlayer.time;
-
         foreach (DictionaryEntry entry in all_hotspots)
         {
             Hotspot h = (Hotspot)entry.Value;
@@ -81,7 +102,6 @@ public class Controller : MonoBehaviour
                 h.getHotspot().SetActive(true);
             }
         }
-        
     }
 
     public void saveJson()
@@ -111,6 +131,7 @@ public class Controller : MonoBehaviour
         window.SetActive(false);
         videoPlayer.Play();
     }
+
     public void ClickSave()
     {
         string name = nameinputField.GetComponent<InputField>().text;
@@ -120,14 +141,7 @@ public class Controller : MonoBehaviour
 
         Hotspot h = (Hotspot)all_hotspots[current_id];
         h.SetMoreInfo(name, text, url_photo, url_video);
-        print(h.getName());
         all_hotspots[current_id] = h;
-        print(((Hotspot)all_hotspots[current_id]).getName());
-
-        Debug.Log(name);
-        Debug.Log(text);
-        Debug.Log(url_photo);
-        Debug.Log(url_video);
 
         nameinputField.GetComponent<InputField>().text = "";
         textInputField.GetComponent<InputField>().text = "";
@@ -237,12 +251,14 @@ public class Controller : MonoBehaviour
         HotspotDatas hotspotdatas = new HotspotDatas() { hotspotdatas = jsons };
         string json = JsonUtility.ToJson(hotspotdatas);
         //Debug.Log(json);
-        File.WriteAllText(Application.dataPath + "/hotspots.json", json);
+        string json_path = System.IO.Path.Combine(packagePath, "hotspots.json");
+        File.WriteAllText(json_path, json);
     }
     public Hashtable load()
     {
         Hashtable r = new Hashtable();
-        string hotspotjsons = File.ReadAllText(Application.dataPath + "/hotspots.json");
+        string json_path = System.IO.Path.Combine(packagePath, "hotspots.json");
+        string hotspotjsons = File.ReadAllText(json_path);
         HotspotDatas hotspotdatas = JsonUtility.FromJson<HotspotDatas>(hotspotjsons);
         foreach (string json in hotspotdatas.hotspotdatas)
         {

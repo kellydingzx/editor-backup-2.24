@@ -16,8 +16,8 @@ public class AddZoneController : MonoBehaviour
     private bool isUp = false;
 
     private void Start() {
-        addZonePanel.interactable = false;
-        addZonePanel.alpha = 0;
+        addZonePanel.interactable = true;
+        addZonePanel.alpha = 1;
     }
 
     public void ShowAddZonePanel() {

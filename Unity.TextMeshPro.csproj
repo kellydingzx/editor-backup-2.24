@@ -319,17 +319,17 @@
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
       <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/16.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
-    <Reference Include="DOTween">
-      <HintPath>D:/Desktop/SC360VideoEditor/Assets/DOTween/DOTween.dll</HintPath>
-    </Reference>
-    <Reference Include="DOTweenEditor">
-      <HintPath>D:/Desktop/SC360VideoEditor/Assets/DOTween/Editor/DOTweenEditor.dll</HintPath>
+    <Reference Include="Ookii.Dialogs">
+      <HintPath>D:/Desktop/SC360VideoEditor/Assets/Plugins/Ookii.Dialogs.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows.Forms">
       <HintPath>D:/Desktop/SC360VideoEditor/Assets/Plugins/System.Windows.Forms.dll</HintPath>
     </Reference>
-    <Reference Include="Ookii.Dialogs">
-      <HintPath>D:/Desktop/SC360VideoEditor/Assets/Plugins/Ookii.Dialogs.dll</HintPath>
+    <Reference Include="DOTween">
+      <HintPath>D:/Desktop/SC360VideoEditor/Assets/Plugins/DOTween/DOTween.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTweenEditor">
+      <HintPath>D:/Desktop/SC360VideoEditor/Assets/Plugins/DOTween/Editor/DOTweenEditor.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:/Program Files/Unity/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>

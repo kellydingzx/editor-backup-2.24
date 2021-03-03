@@ -8,8 +8,8 @@ public class SettingsPopUpMgr : MonoBehaviour
     private bool isUp = false;
 
     void Start() {
-        settingsPanel.interactable = false;
-        settingsPanel.alpha = 0;
+        settingsPanel.interactable = true;
+        settingsPanel.alpha = 1;
     }
 
     public void PressedSettingsButton() {
