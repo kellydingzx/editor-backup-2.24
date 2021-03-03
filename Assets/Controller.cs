@@ -108,7 +108,8 @@ public class Controller : MonoBehaviour
         start_time.GetComponent<Text>().text = hs.getStart().ToString();
         nameinputField.GetComponent<InputField>().text = hs.getName();
         photoDisplay.GetComponent<Text>().text = hs.getUrl_photo();
-        fileManager.GetComponent<FileManager>().loadVideoOntoPanel(hs.getUrl_photo());
+        string new_photo_url = System.IO.Path.Combine(packagePath,hs.getUrl_photo());
+        fileManager.GetComponent<FileManager>().loadVideoOntoPanel(new_photo_url);
         Debug.Log(hs.getName());
         Debug.Log(hs.getUrl_photo());
     }

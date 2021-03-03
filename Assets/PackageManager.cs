@@ -125,9 +125,10 @@ public class PackageManager : MonoBehaviour
 
     public string copyFile(string original_url, string new_name, string folder_name){
         string file_folder_path = System.IO.Path.Combine(package_path, folder_name);
-        string new_file_url = System.IO.Path.Combine(file_folder_path, new_name+System.IO.Path.GetExtension(original_url));
+        string new_file_name = new_name+System.IO.Path.GetExtension(original_url);
+        string new_file_url = System.IO.Path.Combine(file_folder_path, new_file_name);
         System.IO.File.Copy(original_url, new_file_url, true);
-        return new_file_url;
+        return System.IO.Path.Combine(folder_name, new_file_name);
     }
 
 }
