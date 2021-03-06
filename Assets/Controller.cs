@@ -169,6 +169,13 @@ public class Controller : MonoBehaviour
         closeWindow();
     }
 
+    void OnApplicationQuit()
+    {
+        if(packagePath != null){
+            saveJson();
+        }
+    }
+
     public class Hotspot
     {
         GameObject hotspot;
