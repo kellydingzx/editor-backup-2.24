@@ -21,8 +21,8 @@ public class Controller : MonoBehaviour
     //displays
     public GameObject id_display;
     public GameObject start_time;
-    public GameObject photoDisplay;
-    public GameObject videoDisplay;
+    public GameObject photoUrlDisplay;
+    public GameObject videoUrlDisplay;
     public GameObject packagePathDisplay;
     
     //Controllers
@@ -107,11 +107,23 @@ public class Controller : MonoBehaviour
     public void loadHotspot(Hotspot hs){
         start_time.GetComponent<Text>().text = hs.getStart().ToString();
         nameinputField.GetComponent<InputField>().text = hs.getName();
-        photoDisplay.GetComponent<Text>().text = hs.getUrl_photo();
-        string new_photo_url = System.IO.Path.Combine(packagePath,hs.getUrl_photo());
-        fileManager.GetComponent<FileManager>().loadVideoOntoPanel(new_photo_url);
         Debug.Log(hs.getName());
-        Debug.Log(hs.getUrl_photo());
+        textInputField.GetComponent<InputField>().text = hs.getText();
+        //display Photo
+        if (hs.getUrl_photo() != null)
+        {
+            photoUrlDisplay.GetComponent<Text>().text = hs.getUrl_photo();
+            string new_photo_url = System.IO.Path.Combine(packagePath, hs.getUrl_photo());
+            fileManager.GetComponent<FileManager>().loadVideoOntoPanel(new_photo_url);
+            Debug.Log(hs.getUrl_photo());
+        }
+        //display Video Url
+        if(hs.getUrl_video() != null)
+        {
+            videoUrlDisplay.GetComponent<Text>().text = hs.getUrl_video();
+            Debug.Log("video");
+            Debug.Log(hs.getUrl_video());
+        }
     }
 
     public void saveJson()
@@ -146,25 +158,27 @@ public class Controller : MonoBehaviour
     {
         string name = nameinputField.GetComponent<InputField>().text;
         string text = textInputField.GetComponent<InputField>().text;
-        string url_photo = photoDisplay.GetComponent<Text>().text;
-        string url_video = videoDisplay.GetComponent<Text>().text;
+        string url_photo = photoUrlDisplay.GetComponent<Text>().text;
+        string url_video = videoUrlDisplay.GetComponent<Text>().text;
 
-        if (!url_photo.Equals("Photo path here")){ 
+        if (!url_photo.Equals("Photo path here.") && Path.IsPathRooted(@url_photo))
+        { 
             url_photo = packageManager.GetComponent<PackageManager>().copyFile(url_photo, name, "Pictures");
         }
 
-        if (!url_video.Equals("Video path here.")) { 
+        if (!url_video.Equals("Video path here.") && Path.IsPathRooted(@url_video)) { 
             url_video = packageManager.GetComponent<PackageManager>().copyFile(url_video, name, "Videos");
         }
 
         Hotspot h = (Hotspot)all_hotspots[current_id];
+        Debug.Log("video stored" + url_video);
         h.SetMoreInfo(name, text, url_photo, url_video);
         all_hotspots[current_id] = h;
 
         nameinputField.GetComponent<InputField>().text = "";
         textInputField.GetComponent<InputField>().text = "";
-        photoDisplay.GetComponent<Text>().text = "";
-        videoDisplay.GetComponent<Text>().text = "";
+        photoUrlDisplay.GetComponent<Text>().text = "Photo path here.";
+        videoUrlDisplay.GetComponent<Text>().text = "Video path here.";
 
         closeWindow();
     }
@@ -240,11 +254,11 @@ public class Controller : MonoBehaviour
         {
             if(!name.Equals("Hotspot Name")) { this.name = name;}
             if(!text.Equals("Description")) { this.text = text; }
-            if (!url_photo.Equals("Photo path here")){ 
+            if (!url_photo.Equals("Photo path here.")){ 
                 this.url_photo = url_photo;
             }
             if (!url_video.Equals("Video path here.")) { 
-                this.url_video = url_photo;
+                this.url_video = url_video;
             }
                 
         }

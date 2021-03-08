@@ -21,7 +21,7 @@ public class DragEventHandler : MonoBehaviour, IDragHandler, IEndDragHandler, IP
     }
 
     public void OnPointerEnter(PointerEventData eventData) {
-        canvasGroup.DOFade(0.0f, 0.25f).SetEase(Ease.OutSine).OnComplete(() => { canvasGroup.interactable = true; });
+        canvasGroup.DOFade(1.0f, 0.25f).SetEase(Ease.OutSine).OnComplete(() => { canvasGroup.interactable = true; });
     }
 
     public void OnPointerExit(PointerEventData eventData) {

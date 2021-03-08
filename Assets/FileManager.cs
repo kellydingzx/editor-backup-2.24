@@ -4,12 +4,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
 using System;
+using System.IO;
 #if UNITY_STANDALONE_WIN
 using AnotherFileBrowser.Windows;
 #endif
 
 public class FileManager : MonoBehaviour
 {
+    public GameObject project_path;
     public string photo_path;
     public string video_path;
     public GameObject inputpanel;
@@ -36,17 +38,27 @@ public class FileManager : MonoBehaviour
     public void ChangeVideo()
     {
         video_path = OpenFileBrowser("mp4");
-        //Record the old video;
-        videoPlayer.Stop();
-        location = videoPlayer.frame;
-        url_old_video = videoPlayer.url;
-        //Get new video and play
         url_video.GetComponent<Text>().text = video_path;
     }
 
     public void PlaySecondVideo()
     {
-        videoPlayer.url = video_path;
+        video_path = url_video.GetComponent<Text>().text;
+        
+        videoPlayer.Stop();
+        location = videoPlayer.frame;
+        Debug.Log(location);
+        url_old_video = videoPlayer.url;
+        if (Path.IsPathRooted(video_path))
+        {
+            videoPlayer.url = video_path;
+        }
+        else
+        {
+            videoPlayer.url = System.IO.Path.Combine(project_path.GetComponent<Text>().text, video_path);
+            Debug.Log("video url");
+            Debug.Log(video_path);
+        }
         videoPlayer.Play();
         camera_pos = Camera.main.transform.position;
         //Deactive all buttons from the previous video
@@ -67,6 +79,7 @@ public class FileManager : MonoBehaviour
     public void BacktoPrevVideo()
     {
         videoPlayer.url = url_old_video;
+        videoPlayer.Prepare();
         videoPlayer.frame = location;
         Camera.main.transform.rotation = Quaternion.Euler(camera_pos);
         foreach (GameObject button in needs_back)
@@ -77,6 +90,7 @@ public class FileManager : MonoBehaviour
         inputpanel.SetActive(true);
         back_button.SetActive(false);
     }
+
 
     void GetImage()
     {

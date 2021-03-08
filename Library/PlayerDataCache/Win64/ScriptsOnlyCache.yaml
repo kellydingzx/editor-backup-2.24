@@ -1,6 +1,7 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
+    - Contact_Window
     - Controller
     - DragEventHandler
     - FileManager
@@ -11,6 +12,8 @@ ScriptsOnlyBuild:
     - VideoController
     - VideoProgressBar
     - Video_Manager
+    - Warning
+    - Window_Graph
     - spriteBehavior
     DOTween.dll:
     - DG.Tweening.Core.DOTweenSettings
@@ -94,43 +97,49 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11926}
     - Class: 114
-      Script: {instanceID: 12006}
+      Script: {instanceID: 11930}
     - Class: 114
-      Script: {instanceID: 12050}
+      Script: {instanceID: 12008}
     - Class: 114
-      Script: {instanceID: 12104}
+      Script: {instanceID: 12052}
     - Class: 114
-      Script: {instanceID: 12218}
+      Script: {instanceID: 12106}
     - Class: 114
-      Script: {instanceID: 12326}
+      Script: {instanceID: 12220}
     - Class: 114
-      Script: {instanceID: 12496}
+      Script: {instanceID: 12328}
     - Class: 114
       Script: {instanceID: 12498}
     - Class: 114
-      Script: {instanceID: 12506}
+      Script: {instanceID: 12500}
     - Class: 114
-      Script: {instanceID: 12532}
+      Script: {instanceID: 12508}
     - Class: 114
-      Script: {instanceID: 12546}
+      Script: {instanceID: 12534}
     - Class: 114
-      Script: {instanceID: 12794}
+      Script: {instanceID: 12548}
     - Class: 114
-      Script: {instanceID: 12930}
+      Script: {instanceID: 12668}
     - Class: 114
-      Script: {instanceID: 12948}
+      Script: {instanceID: 12798}
     - Class: 114
-      Script: {instanceID: 13040}
+      Script: {instanceID: 12934}
     - Class: 114
-      Script: {instanceID: 13064}
+      Script: {instanceID: 12952}
     - Class: 114
-      Script: {instanceID: 13156}
+      Script: {instanceID: 13044}
     - Class: 114
-      Script: {instanceID: 13188}
+      Script: {instanceID: 13068}
     - Class: 114
-      Script: {instanceID: 15832}
+      Script: {instanceID: 13160}
     - Class: 114
-      Script: {instanceID: 15834}
+      Script: {instanceID: 13192}
+    - Class: 114
+      Script: {instanceID: 28838}
+    - Class: 114
+      Script: {instanceID: 54540}
+    - Class: 114
+      Script: {instanceID: 54542}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -338,7 +347,7 @@ ScriptsOnlyBuild:
     className: Mask
   - hash:
       serializedVersion: 2
-      Hash: 63d23b345823028a799cea3d569ace24
+      Hash: 34dac30a1629832ac055be6b164f4bd4
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: FileManager
@@ -350,7 +359,7 @@ ScriptsOnlyBuild:
     className: Shadow
   - hash:
       serializedVersion: 2
-      Hash: bbe20b79407851fe1007323b51e9eb95
+      Hash: 55fd07f2699ff54538301601fb0904e3
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Controller
@@ -372,6 +381,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TMP_SpriteAsset
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Window_Graph
   - hash:
       serializedVersion: 2
       Hash: c3d3430df9e3ea95e3e3d587961390fb
@@ -476,7 +491,7 @@ ScriptsOnlyBuild:
     className: SignalReceiver
   - hash:
       serializedVersion: 2
-      Hash: 7947308530067a11d0ff729759dfe43c
+      Hash: f2e1fe34e422cb5f6025ae0e7360d216
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Video_Manager
@@ -516,6 +531,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: TimelineAsset
+  - hash:
+      serializedVersion: 2
+      Hash: c02aa6fa3e874bf3d5ae7775b2c81cc9
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Warning
   - hash:
       serializedVersion: 2
       Hash: 6939772cb3ce775a8e8d99f332534491
@@ -560,7 +581,7 @@ ScriptsOnlyBuild:
     className: TMP_StyleSheet
   - hash:
       serializedVersion: 2
-      Hash: 4423b70a1f59c3f52f1d8cbbe92792d0
+      Hash: 3cc9517eb262b0e3ef091c3f6a0e1d8c
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PackageManager
@@ -684,7 +705,13 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
+  - hash:
+      serializedVersion: 2
+      Hash: b52bb6ba248a04782ed760cad95e2d10
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Contact_Window
   platform: 19
   scenePathNames:
   - Assets/Scenes/SampleScene.unity
-  playerPath: D:/Desktop/bb2/SC360.exe
+  playerPath: D:/Desktop/editor_build/SC360.exe
