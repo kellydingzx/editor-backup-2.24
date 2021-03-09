@@ -2647,7 +2647,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bae1a34b078fff47b1ac3b3a977539a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cam: {fileID: 963194227}
   project_path: {fileID: 277590243}
+  controller: {fileID: 1275001636}
   photo_path: 
   video_path: 
   inputpanel: {fileID: 131662245}
@@ -6441,6 +6443,7 @@ MonoBehaviour:
   packagePathDisplay: {fileID: 277590243}
   packageManager: {fileID: 1175531045}
   fileManager: {fileID: 427013590}
+  current_id: 
 --- !u!4 &1275001638
 Transform:
   m_ObjectHideFlags: 0

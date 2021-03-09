@@ -29,9 +29,8 @@ public class Controller : MonoBehaviour
     public GameObject packageManager;
     public GameObject fileManager;
 
-    //Private variables 
     private Hashtable all_hotspots;
-    private string current_id;
+    public string current_id;
 
     //Status variables
     private bool loaded;

@@ -11,7 +11,9 @@ using AnotherFileBrowser.Windows;
 
 public class FileManager : MonoBehaviour
 {
+    public Camera cam;
     public GameObject project_path;
+    public GameObject controller;
     public string photo_path;
     public string video_path;
     public GameObject inputpanel;
@@ -22,6 +24,7 @@ public class FileManager : MonoBehaviour
     public GameObject back_button;
 
     //Variables for switching videos
+    private GameObject current_hotspot;
     private GameObject[] objs;
     private List<GameObject> needs_back;
     private long location;
@@ -43,12 +46,13 @@ public class FileManager : MonoBehaviour
 
     public void PlaySecondVideo()
     {
-        video_path = url_video.GetComponent<Text>().text;
-        
-        videoPlayer.Stop();
+        //Record information about the previous video
         location = videoPlayer.frame;
-        Debug.Log(location);
+        camera_pos = Camera.main.transform.position;
         url_old_video = videoPlayer.url;
+        videoPlayer.Stop();
+        //Read and modify path of the new video
+        video_path = url_video.GetComponent<Text>().text;
         if (Path.IsPathRooted(video_path))
         {
             videoPlayer.url = video_path;
@@ -60,7 +64,6 @@ public class FileManager : MonoBehaviour
             Debug.Log(video_path);
         }
         videoPlayer.Play();
-        camera_pos = Camera.main.transform.position;
         //Deactive all buttons from the previous video
         objs = GameObject.FindGameObjectsWithTag("Trigger");
         needs_back = new List<GameObject>();
@@ -69,6 +72,10 @@ public class FileManager : MonoBehaviour
             if (button.activeSelf)
             {
                 needs_back.Add(button);
+                if (button.GetInstanceID().ToString().Equals(controller.GetComponent<Controller>().current_id))
+                {
+                    current_hotspot = button;
+                }
             }
             button.SetActive(false);
         }
@@ -80,13 +87,13 @@ public class FileManager : MonoBehaviour
     {
         videoPlayer.url = url_old_video;
         videoPlayer.Prepare();
+        videoPlayer.Play();
         videoPlayer.frame = location;
-        Camera.main.transform.rotation = Quaternion.Euler(camera_pos);
+        cam.transform.LookAt(current_hotspot.transform.position);
         foreach (GameObject button in needs_back)
         {
             button.SetActive(true);
         }
-        videoPlayer.Play();
         inputpanel.SetActive(true);
         back_button.SetActive(false);
     }
