@@ -137,9 +137,9 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 13196}
     - Class: 114
-      Script: {instanceID: 19290}
+      Script: {instanceID: 19348}
     - Class: 114
-      Script: {instanceID: 19292}
+      Script: {instanceID: 19350}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -365,7 +365,7 @@ ScriptsOnlyBuild:
     className: Shadow
   - hash:
       serializedVersion: 2
-      Hash: 3faaa7726b2f3b2261f3af38af9ea381
+      Hash: 0d48fe4d8ffe539b992258d12f7e69c1
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Controller

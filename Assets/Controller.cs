@@ -9,57 +9,47 @@ using UnityEngine.Video;
 
 public class Controller : MonoBehaviour
 {
-    //Panels
-    public Camera cam;
     public VideoPlayer videoPlayer;
-    public GameObject window;
-    //Input fields
-    public GameObject nameinputField;
-    public GameObject textInputField;
+    //Controllers
+    public StatusController statusController;
+    public Warning warningController;
+    public InputPanelControl inputPanelController;
+
     //Buttons
     public GameObject hotspot;
-    public GameObject back_button;
     
-    //displays
-    public GameObject id_display;
-    public GameObject start_time;
-    public GameObject photoUrlDisplay;
-    public GameObject videoUrlDisplay;
-    public GameObject packagePathDisplay;
+
     public Window_Graph window_Graph;
     
-    //Controllers
-    public GameObject packageManager;
-    public GameObject fileManager;
-
-    private Hashtable all_hotspots;
     public string current_id;
 
-    //Status variables
-    private bool loaded;
-    private string packagePath;
+    private bool ready_to_load;
+
+    private Hashtable all_hotspots;
+    private bool hotspots_loaded;
    
     void Start()
     {
-        loaded = false;
-        window.SetActive(false);
-        back_button.SetActive(false);
         window_Graph.MainBranch();
     }
 
     void Update(){
-        if((videoPlayer.length != 0) && packageManager.GetComponent<PackageManager>().path_ready && !loaded){
-            packagePath = packagePathDisplay.GetComponent<Text>().text;
-            all_hotspots = load();
-            loaded = true;
-        }
-        if(packageManager.GetComponent<PackageManager>().mainVideo_ready && loaded && !fileManager.GetComponent<FileManager>().on_second)
+        if(videoPlayer.isPrepared && (videoPlayer.length != 0))
         {
-            inner_update();
+            addingAndViewingHotspots();
         }
+        
+        if(videoPlayer.length != 0 && ready_to_load && !hotspots_loaded)
+        {
+            load();
+        }
+
+        if (hotspots_loaded){ checkHotspotValidity();}
     }
 
-    void inner_update()
+    public void please_load() { ready_to_load = true; }
+
+    void addingAndViewingHotspots()
     {
         //Add Hotspot on right click
         if (Input.GetMouseButtonDown(1))
@@ -86,11 +76,11 @@ public class Controller : MonoBehaviour
                     openWindow(current_id);
                 }
             }
-            //Camera cam;
-            //Debug.Log(cam.ScreenToWorldPoint(Input.mousePosition));
         }
+    }
 
-        //check the validity of hotspot in terms of time
+    public void checkHotspotValidity() //check the validity of hotspot in terms of time
+    {
         double current_time = videoPlayer.time;
         foreach (DictionaryEntry entry in all_hotspots)
         {
@@ -105,12 +95,11 @@ public class Controller : MonoBehaviour
             }
         }
     }
-    public void openWindow(string id) {
-        window.SetActive(true);
-        id_display.GetComponent<Text>().text = id;
-        Hotspot h = (Hotspot)all_hotspots[id];
-        loadHotspot(h);
-        goToHotspot(h);
+
+    public void openWindow(string id) {      
+        Hotspot current_hotspot = (Hotspot)all_hotspots[id];
+        inputPanelController.loadHotspot(id, current_hotspot.getName(), current_hotspot.getText(), current_hotspot.getUrl_photo());
+        goToHotspot(current_hotspot);
         videoPlayer.Pause();
     }
 
@@ -123,51 +112,37 @@ public class Controller : MonoBehaviour
         long location_frame = Convert.ToInt64(hs_start_time / (videoPlayer.frameCount / videoPlayer.frameRate)* videoPlayer.frameCount)+5;
         videoPlayer.frame = location_frame;
         Debug.Log(location_frame);
-        cam.transform.LookAt(hs.getHotspot().transform);
+        Camera.main.transform.LookAt(hs.getHotspot().transform);
     }
 
-    public void loadHotspot(Hotspot hs){
-        start_time.GetComponent<Text>().text = "Start At: "+hs.getStart().ToString();
-        nameinputField.GetComponent<InputField>().text = hs.getName();
-        Debug.Log(hs.getName());
-        textInputField.GetComponent<InputField>().text = hs.getText();
-        //display Photo
-        if (hs.getUrl_photo() != null)
-        {
-            photoUrlDisplay.GetComponent<Text>().text = hs.getUrl_photo();
-            string new_photo_url = System.IO.Path.Combine(packagePath, hs.getUrl_photo());
-            fileManager.GetComponent<FileManager>().loadVideoOntoPanel(new_photo_url);
-            Debug.Log(hs.getUrl_photo());
-        }
-        //display Video Url
-        if(hs.getUrl_video() != null)
-        {
-            videoUrlDisplay.GetComponent<Text>().text = hs.getUrl_video();
-            Debug.Log("video");
-            Debug.Log(hs.getUrl_video());
-        }
+    public Transform getTransformByID(string hotspot_id)
+    {
+        return ((Hotspot)all_hotspots[hotspot_id]).getHotspot().transform;
     }
 
     public void saveJson()
     {
-        save(all_hotspots, packagePath);
+        save(all_hotspots, statusController.getPath());
+        warningController.displayErrorMessage("Saved.");
     }
 
-    public void closeWindow()
-    {
-        window.SetActive(false);
-        videoPlayer.Play();
-    }
 
-    public void SetEndtime()
+    public void SetEndtime(string id)
     {
-        Hotspot a = (Hotspot)all_hotspots[id_display.GetComponent<Text>().text];
+        Hotspot a = (Hotspot)all_hotspots[id];
         a.SetEndTime(videoPlayer.time);
     }
 
-    public void delete_hotspot()
+    public void update_hotspot(string id, string name, string text, string url_photo)
     {
-        string id = id_display.GetComponent<Text>().text;
+        Hotspot current_hotspot = (Hotspot)all_hotspots[id];
+        Debug.Log(id);
+        current_hotspot.SetMoreInfo(name, text, url_photo);
+        all_hotspots[id] = current_hotspot;
+    }
+
+    public void delete_hotspot(string id)
+    {
         Hotspot h = (Hotspot)all_hotspots[id];
         GameObject a = h.getHotspot();
         all_hotspots.Remove(id);
@@ -176,44 +151,34 @@ public class Controller : MonoBehaviour
         Destroy(b);
         GameObject c = GameObject.Find("/Canvas/Window_Graph/Graph_Container/" + id + "c");
         Destroy(c);
-        window.SetActive(false);
         videoPlayer.Play();
     }
 
-    public void ClickSave()
+    public void removeAllHotspots()
     {
-        string name = nameinputField.GetComponent<InputField>().text;
-        string text = textInputField.GetComponent<InputField>().text;
-        string url_photo = photoUrlDisplay.GetComponent<Text>().text;
-        string url_video = videoUrlDisplay.GetComponent<Text>().text;
-
-        if (!url_photo.Equals("Photo path here.") && Path.IsPathRooted(@url_photo))
-        { 
-            url_photo = packageManager.GetComponent<PackageManager>().copyFile(url_photo, name, "Pictures");
+        hotspots_loaded = false;
+        ready_to_load = false;
+        List<String> needs_removed = new List<string>();
+        foreach (DictionaryEntry entry in all_hotspots)
+        {
+            needs_removed.Add(entry.Key.ToString());
         }
 
-        if (!url_video.Equals("Video path here.") && Path.IsPathRooted(@url_video)) { 
-            url_video = packageManager.GetComponent<PackageManager>().copyFile(url_video, name, "Videos");
+        GameObject[] objs = GameObject.FindGameObjectsWithTag("Trigger");
+        foreach (GameObject button in objs)
+        {
+            string id = button.GetInstanceID().ToString();
+            if (needs_removed.Contains(id))
+            {
+                delete_hotspot(id);
+            }
         }
-
-        Hotspot h = (Hotspot)all_hotspots[current_id];
-        Debug.Log("video stored" + url_video);
-        h.SetMoreInfo(name, text, url_photo, url_video);
-        all_hotspots[current_id] = h;
-
-        nameinputField.GetComponent<InputField>().text = "";
-        textInputField.GetComponent<InputField>().text = "";
-        photoUrlDisplay.GetComponent<Text>().text = "Photo path here.";
-        videoUrlDisplay.GetComponent<Text>().text = "Video path here.";
-
-        closeWindow();
+        all_hotspots.Clear();
     }
 
     void OnApplicationQuit()
     {
-        if(packagePath != null){
-            saveJson();
-        }
+        //if(statusController.path_ready()){ saveJson();}
     }
 
     public class Hotspot
@@ -241,7 +206,7 @@ public class Controller : MonoBehaviour
             this.name = name;
             this.text = text;
             this.url_photo = url_photo;
-            this.url_video = url_video;
+            //this.url_video = url_video;
         }
         public double getStart()
         {
@@ -276,17 +241,16 @@ public class Controller : MonoBehaviour
             this.end_time = endtime;
         }
 
-        public void SetMoreInfo(string name, string text, string url_photo, string url_video)
+        public void SetMoreInfo(string name, string text, string url_photo)
         {
             if(!name.Equals("Hotspot Name")) { this.name = name;}
             if(!text.Equals("Description")) { this.text = text; }
-            if (!url_photo.Equals("Photo path here.")){ 
+            if (!url_photo.Equals("Photo path here.") && url_photo != null){ 
                 this.url_photo = url_photo;
             }
-            if (!url_video.Equals("Video path here.")) { 
-                this.url_video = url_video;
-            }
-                
+            //if (!url_video.Equals("Video path here.")) { 
+            //    this.url_video = url_video;
+            //}     
         }
     }
     
@@ -331,25 +295,28 @@ public class Controller : MonoBehaviour
         jsons = jsonlist.ToArray();
         HotspotDatas hotspotdatas = new HotspotDatas() { hotspotdatas = jsons };
         string json = JsonUtility.ToJson(hotspotdatas);
-        //Debug.Log(json);
         string json_path = System.IO.Path.Combine(json_folder, "hotspots.json");
         File.WriteAllText(json_path, json);
     }
-    public Hashtable load()
+
+    public void load()
     {
-        Hashtable r = new Hashtable();
-        string json_path = System.IO.Path.Combine(packagePath, "hotspots.json");
-        string hotspotjsons = File.ReadAllText(json_path);
-        HotspotDatas hotspotdatas = JsonUtility.FromJson<HotspotDatas>(hotspotjsons);
-        foreach (string json in hotspotdatas.hotspotdatas)
+        all_hotspots = new Hashtable();
+        string json_path = System.IO.Path.Combine(statusController.getPath(), "hotspots.json");
+        if (File.Exists(json_path))
         {
-            HotspotData h1 = JsonUtility.FromJson<HotspotData>(json);
-            GameObject a = Instantiate(hotspot, h1.worldPosition, h1.rot);
-            r.Add(a.GetInstanceID().ToString(), new Hotspot(a, h1.start_time, h1.end_time, h1.name, h1.text, h1.url_photo, h1.url_video));
-            window_Graph.CreateDotConnection(new Vector2((float)((h1.start_time/videoPlayer.length)*1850+100), 150),new Vector2((float)((h1.start_time/videoPlayer.length)*1850+100)+100,250),a.GetInstanceID().ToString());
-            window_Graph.CreateCircle(new Vector2((float)((h1.start_time/videoPlayer.length)*1850+100)+100,150+100),a.GetInstanceID().ToString()+"c");
+            string hotspotjsons = File.ReadAllText(json_path);
+            HotspotDatas hotspotdatas = JsonUtility.FromJson<HotspotDatas>(hotspotjsons);
+            foreach (string json in hotspotdatas.hotspotdatas)
+            {
+                HotspotData h1 = JsonUtility.FromJson<HotspotData>(json);
+                GameObject a = Instantiate(hotspot, h1.worldPosition, h1.rot);
+                all_hotspots.Add(a.GetInstanceID().ToString(), new Hotspot(a, h1.start_time, h1.end_time, h1.name, h1.text, h1.url_photo, h1.url_video));
+                window_Graph.CreateDotConnection(new Vector2((float)((h1.start_time / videoPlayer.length) * 1850 + 100), 150), new Vector2((float)((h1.start_time / videoPlayer.length) * 1850 + 100) + 100, 250), a.GetInstanceID().ToString());
+                window_Graph.CreateCircle(new Vector2((float)((h1.start_time / videoPlayer.length) * 1850 + 100) + 100, 150 + 100), a.GetInstanceID().ToString() + "c");
+            }
+            hotspots_loaded = true;
         }
-        return r;
     }
 
     

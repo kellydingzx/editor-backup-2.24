@@ -11,14 +11,18 @@ using AnotherFileBrowser.Windows;
 
 public class FileManager : MonoBehaviour
 {
-    public Camera cam;
+    public GameObject photo_url_display;
+    public RawImage image;
+
+
     public GameObject project_path;
-    public GameObject controller;
+    public Controller controller;
+
     public string photo_path;
     public string video_path;
     public GameObject inputpanel;
-    public RawImage image;
-    public GameObject url_display;
+    
+
     public VideoPlayer videoPlayer;
     public GameObject url_video;
     public GameObject back_button;
@@ -33,22 +37,15 @@ public class FileManager : MonoBehaviour
     private string url_old_video;
     private Vector3 camera_pos;
 
-    void Start()
+    public void choosePhoto() //need renamed to choose photo
     {
-        on_second = false;
-    }
-
-    public void OpenExplorer()
-    {
-        photo_path = OpenFileBrowser("png");
-        GetImage();
-        url_display.GetComponent<Text>().text = photo_path;
-    }
-
-    public void ChangeVideo()
-    {
-        video_path = OpenFileBrowser("mp4");
-        url_video.GetComponent<Text>().text = video_path;
+        photo_path = OpenFileBrowser();
+        if (photo_path != null)
+        {
+            WWW www = new WWW("file:///" + photo_path);
+            image.texture = www.texture;
+        }
+        photo_url_display.GetComponent<Text>().text = photo_path;
     }
 
     public void PlaySecondVideo()
@@ -88,39 +85,8 @@ public class FileManager : MonoBehaviour
         }
         inputpanel.SetActive(false);
         back_button.SetActive(true);
-        on_second = true;
     }
 
-    public void BacktoPrevVideo()
-    {
-        videoPlayer.url = url_old_video;
-        videoPlayer.Prepare();
-        videoPlayer.Play();
-        videoPlayer.frame = location;
-        cam.transform.LookAt(current_hotspot.transform.position);
-        foreach (GameObject button in needs_back)
-        {
-            button.SetActive(true);
-        }
-        inputpanel.SetActive(true);
-        back_button.SetActive(false);
-        on_second = false;
-    }
-
-
-    void GetImage()
-    {
-        if(photo_path != null)
-        {
-            UpdateImage();
-        }
-    }
-
-    void UpdateImage()
-    {
-        WWW www = new WWW("file:///" + photo_path);
-        image.texture = www.texture;
-    }
 
     public string getPhoto()
     {
@@ -133,14 +99,11 @@ public class FileManager : MonoBehaviour
     }
 
     // reference: https://github.com/SrejonKhan/AnotherFileBrowser Accessed on: 23rd Feb 2021
-    // <summary>
-    /// FileDialog for picking a single file
-    /// </summary>
-    public string OpenFileBrowser(string typee)
+    // FileDialog for picking a single file
+    public string OpenFileBrowser()
     {
-#if UNITY_STANDALONE_WIN
         var bp = new BrowserProperties();
-        bp.filter = typee + " files (*." + typee + ")|*." + typee;
+        bp.filter = "png files (*.png)|*.png|jpg files (*.jpg)|*.jpg";
         bp.filterIndex = 0;
 
         string res = "";
@@ -151,6 +114,5 @@ public class FileManager : MonoBehaviour
         });
 
         return res;
-#endif
     }
 }

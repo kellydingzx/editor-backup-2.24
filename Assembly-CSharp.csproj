@@ -55,9 +55,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\BranchProject.cs" />
      <Compile Include="Assets\Contact_Window.cs" />
      <Compile Include="Assets\Controller.cs" />
      <Compile Include="Assets\FileManager.cs" />
+     <Compile Include="Assets\HotspotsStatus.cs" />
+     <Compile Include="Assets\InputPanelControl.cs" />
      <Compile Include="Assets\Look_Around.cs" />
      <Compile Include="Assets\PackageManager.cs" />
      <Compile Include="Assets\Scripts\AddZoneController.cs" />
@@ -73,7 +76,8 @@
      <Compile Include="Assets\Scripts\VideoController.cs" />
      <Compile Include="Assets\Scripts\VideoProgressBar.cs" />
      <Compile Include="Assets\Scripts\ZonePopUpController.cs" />
-     <Compile Include="Assets\Video_Manager.cs" />
+     <Compile Include="Assets\StatusController.cs" />
+     <Compile Include="Assets\VideoManager.cs" />
      <Compile Include="Assets\Warning.cs" />
      <Compile Include="Assets\Window_Graph.cs" />
      <Compile Include="Assets\spriteBehavior.cs" />
