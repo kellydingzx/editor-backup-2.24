@@ -53,7 +53,8 @@ public class Controller : MonoBehaviour
             all_hotspots = load();
             loaded = true;
         }
-        if(packageManager.GetComponent<PackageManager>().mainVideo_ready && loaded){
+        if(packageManager.GetComponent<PackageManager>().mainVideo_ready && loaded && !fileManager.GetComponent<FileManager>().on_second)
+        {
             inner_update();
         }
     }

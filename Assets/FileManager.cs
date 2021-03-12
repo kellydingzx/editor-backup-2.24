@@ -23,6 +23,8 @@ public class FileManager : MonoBehaviour
     public GameObject url_video;
     public GameObject back_button;
 
+    public bool on_second;
+
     //Variables for switching videos
     private GameObject current_hotspot;
     private GameObject[] objs;
@@ -30,6 +32,11 @@ public class FileManager : MonoBehaviour
     private long location;
     private string url_old_video;
     private Vector3 camera_pos;
+
+    void Start()
+    {
+        on_second = false;
+    }
 
     public void OpenExplorer()
     {
@@ -81,6 +88,7 @@ public class FileManager : MonoBehaviour
         }
         inputpanel.SetActive(false);
         back_button.SetActive(true);
+        on_second = true;
     }
 
     public void BacktoPrevVideo()
@@ -96,6 +104,7 @@ public class FileManager : MonoBehaviour
         }
         inputpanel.SetActive(true);
         back_button.SetActive(false);
+        on_second = false;
     }
 
 
