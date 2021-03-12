@@ -1,7 +1,8 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Runtime;
 using System.Collections.Generic;
 using System.IO;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
@@ -9,6 +10,7 @@ using UnityEngine.Video;
 public class Controller : MonoBehaviour
 {
     //Panels
+    public Camera cam;
     public VideoPlayer videoPlayer;
     public GameObject window;
     //Input fields
@@ -24,6 +26,7 @@ public class Controller : MonoBehaviour
     public GameObject photoUrlDisplay;
     public GameObject videoUrlDisplay;
     public GameObject packagePathDisplay;
+    public Window_Graph window_Graph;
     
     //Controllers
     public GameObject packageManager;
@@ -41,15 +44,16 @@ public class Controller : MonoBehaviour
         loaded = false;
         window.SetActive(false);
         back_button.SetActive(false);
+        window_Graph.MainBranch();
     }
 
     void Update(){
-        if(packageManager.GetComponent<PackageManager>().path_ready && !loaded){   
+        if((videoPlayer.length != 0) && packageManager.GetComponent<PackageManager>().path_ready && !loaded){
             packagePath = packagePathDisplay.GetComponent<Text>().text;
             all_hotspots = load();
             loaded = true;
         }
-        if(packageManager.GetComponent<PackageManager>().mainVideo_ready){
+        if(packageManager.GetComponent<PackageManager>().mainVideo_ready && loaded){
             inner_update();
         }
     }
@@ -65,6 +69,8 @@ public class Controller : MonoBehaviour
             a.name = a.GetInstanceID().ToString();
             all_hotspots.Add(a.name, new Hotspot(a, start_time,videoPlayer.length));
             a.SetActive(true);
+            window_Graph.CreateDotConnection(new Vector2((float)((videoPlayer.time/videoPlayer.length)*1850+100), 150),new Vector2((float)((videoPlayer.time/videoPlayer.length)*1850+100)+100,150+100),a.GetInstanceID().ToString());
+            window_Graph.CreateCircle(new Vector2((float)((videoPlayer.time/videoPlayer.length)*1850+100)+100,150+100),a.GetInstanceID().ToString()+"c");
         }
 
         //View hotspot on left click
@@ -74,17 +80,13 @@ public class Controller : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if(Physics.Raycast(ray, out hit)){
                 if(hit.transform.gameObject.tag == "Trigger")
-                {
-                    window.SetActive(true);
+                { 
                     current_id = hit.transform.gameObject.GetInstanceID().ToString();
-                    Debug.Log(current_id);
-                    id_display.GetComponent<Text>().text = current_id;
-                    Hotspot h = (Hotspot)all_hotspots[current_id];
-                    Debug.Log(h.getName());
-                    loadHotspot(h);
-                    videoPlayer.Pause();
+                    openWindow(current_id);
                 }
             }
+            //Camera cam;
+            //Debug.Log(cam.ScreenToWorldPoint(Input.mousePosition));
         }
 
         //check the validity of hotspot in terms of time
@@ -102,9 +104,29 @@ public class Controller : MonoBehaviour
             }
         }
     }
+    public void openWindow(string id) {
+        window.SetActive(true);
+        id_display.GetComponent<Text>().text = id;
+        Hotspot h = (Hotspot)all_hotspots[id];
+        loadHotspot(h);
+        goToHotspot(h);
+        videoPlayer.Pause();
+    }
+
+    public void goToHotspot(Hotspot hs)
+    {
+        double hs_start_time = hs.getStart();
+        videoPlayer.Prepare();
+        Debug.Log(videoPlayer.frameCount);
+        Debug.Log(videoPlayer.frameRate);
+        long location_frame = Convert.ToInt64(hs_start_time / (videoPlayer.frameCount / videoPlayer.frameRate)* videoPlayer.frameCount)+5;
+        videoPlayer.frame = location_frame;
+        Debug.Log(location_frame);
+        cam.transform.LookAt(hs.getHotspot().transform);
+    }
 
     public void loadHotspot(Hotspot hs){
-        start_time.GetComponent<Text>().text = hs.getStart().ToString();
+        start_time.GetComponent<Text>().text = "Start At: "+hs.getStart().ToString();
         nameinputField.GetComponent<InputField>().text = hs.getName();
         Debug.Log(hs.getName());
         textInputField.GetComponent<InputField>().text = hs.getText();
@@ -149,6 +171,10 @@ public class Controller : MonoBehaviour
         GameObject a = h.getHotspot();
         all_hotspots.Remove(id);
         Destroy(a);
+        GameObject b = GameObject.Find("/Canvas/Window_Graph/Graph_Container/" + id);
+        Destroy(b);
+        GameObject c = GameObject.Find("/Canvas/Window_Graph/Graph_Container/" + id + "c");
+        Destroy(c);
         window.SetActive(false);
         videoPlayer.Play();
     }
@@ -319,8 +345,9 @@ public class Controller : MonoBehaviour
             HotspotData h1 = JsonUtility.FromJson<HotspotData>(json);
             GameObject a = Instantiate(hotspot, h1.worldPosition, h1.rot);
             r.Add(a.GetInstanceID().ToString(), new Hotspot(a, h1.start_time, h1.end_time, h1.name, h1.text, h1.url_photo, h1.url_video));
+            window_Graph.CreateDotConnection(new Vector2((float)((h1.start_time/videoPlayer.length)*1850+100), 150),new Vector2((float)((h1.start_time/videoPlayer.length)*1850+100)+100,250),a.GetInstanceID().ToString());
+            window_Graph.CreateCircle(new Vector2((float)((h1.start_time/videoPlayer.length)*1850+100)+100,150+100),a.GetInstanceID().ToString()+"c");
         }
-        Debug.Log("addded");
         return r;
     }
 

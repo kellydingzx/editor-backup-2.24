@@ -48,6 +48,7 @@ public class FileManager : MonoBehaviour
     {
         //Record information about the previous video
         location = videoPlayer.frame;
+        camera_pos = Camera.main.transform.position;
         url_old_video = videoPlayer.url;
         videoPlayer.Stop();
         //Read and modify path of the new video
