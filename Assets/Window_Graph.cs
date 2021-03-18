@@ -11,29 +11,33 @@ public class Window_Graph : MonoBehaviour
     public int ymax = 250;
     public RectTransform graphContainer;
     public Controller controller;
+    public TimelineController timelineController;
+    public BranchProject branchProject;
     public void Awake() {
         graphContainer = transform.Find("Graph_Container").GetComponent<RectTransform>();
     }
-    public GameObject CreateCircle(Vector2 anchoredPosition, string name) {
+    public GameObject CreateCircle(Vector2 pos1, string name) {
         GameObject hi = new GameObject(name,typeof(Image));
 
         Sprite circle = Resources.Load<Sprite>("Circle");
         hi.GetComponent<Image>().sprite = circle;
 
         hi.AddComponent<Button>();
-        hi.GetComponent<Button>().onClick.AddListener(delegate{openWindow1(hi.name);});
+        hi.GetComponent<Button>().onClick.AddListener(delegate { openWindow1(hi.GetInstanceID().ToString()); });
 
         hi.transform.SetParent(graphContainer);
         RectTransform rectTransform = hi.GetComponent<RectTransform>();
-        rectTransform.anchoredPosition = anchoredPosition;
+        rectTransform.anchoredPosition = pos1;
         rectTransform.sizeDelta = new Vector2(11, 11);
         rectTransform.anchorMin = new Vector2(0,0);
         rectTransform.anchorMax = new Vector2(0,0);
         return hi;
     }
-    public void openWindow1(string name) {
-        string name2 = name.Remove(name.Length - 1, 1);  
-        controller.openWindow(name2);
+    public void openWindow1(string node_id) {
+        string path_needs_branched = timelineController.getPathByID(node_id);
+        Vector3 needs_lookat = timelineController.getWorldPositionByID(node_id);
+        double needs_jump_to = timelineController.getStartTimeByID(node_id);
+        branchProject.branchOutbyNode(path_needs_branched, needs_lookat, needs_jump_to);
     }
     public void CreateDotConnection(Vector2 pos1 ,Vector2 pos2,string name) {
         GameObject hi = new GameObject(name,typeof(Image));
@@ -49,26 +53,16 @@ public class Window_Graph : MonoBehaviour
         float angle = (dir.y < 0 ? -Mathf.Acos(dir.x) : Mathf.Acos(dir.x)) * Mathf.Rad2Deg;
         rectTransform.localEulerAngles = new Vector3(0, 0, angle);
     }
-    public void BranchLine(Vector2 pos1 ,Vector2 pos2) {
-        Vector2 pos3 = new Vector2(pos1.x + (pos2.x - pos1.x) * .05f,pos2.y);
-        CreateDotConnection(pos1, pos3, "l1");
-        CreateDotConnection(pos3, pos2, "l2");
-    }
-    public float MainBranch() {
-        CreateCircle(new Vector2(xmin, (ymax+ymin)/2),"c1");
-        CreateCircle(new Vector2(xmax, (ymax+ymin)/2),"c2");
-        CreateDotConnection(new Vector2(xmin, (ymax+ymin)/2),new Vector2(xmax, (ymax+ymin)/2),"l1");
+    public float MainBranch(string name) {
+        CreateCircle(new Vector2(xmin, (ymax+ymin)/2), name + "c");
+        CreateDotConnection(new Vector2(xmin, (ymax+ymin)/2),new Vector2(xmax, (ymax+ymin)/2),name);
         return ((ymax+ymin)/2);
     }
-    public void NewBranch(float stemY, float xpos, Vector2 to_add) {
-        Vector2 stem = new Vector2(xpos, stemY);
-        CreateCircle(to_add, "c1");
-        BranchLine(stem,to_add);
-    }
-    public void NewLeaf(float stemY, float xpos) {
-        Vector2 stem = new Vector2(xpos, stemY);
-        CreateCircle(new Vector2(xpos+100,stemY+100), "c1");
-        CreateDotConnection(new Vector2(xpos, stemY),new Vector2(xpos+100,stemY+100),"l1");
+    public void ClearGraph() {
+        foreach (Transform child in graphContainer)
+            if(child.name != "Background") {
+                Destroy(child.gameObject);
+            }
     }
 }
 

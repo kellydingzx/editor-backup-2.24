@@ -13,15 +13,30 @@ public class StatusController : MonoBehaviour
     public GameObject projectNameDisplay;
     public GameObject projectPathDisplay;
 
+    private string init_project_name;
+    private string init_project_path;
+    private bool init_set;
+
+    void Start()
+    {
+        init_set = false;
+    }
+
     public void setNameAndPath(string project_name, string project_path)
     {
         projectName = project_name;
         projectPath = project_path;
         displayNameAndPath();
+        if (!init_set) {
+            init_project_name = projectName;
+            init_project_path = projectPath;
+            init_set = true;
+        }
     }
 
     public string getName()
     {
+        Debug.Log(projectName);
         return projectName;
     }
 
@@ -32,7 +47,7 @@ public class StatusController : MonoBehaviour
 
     public bool path_ready()
     {
-        return projectPath != null;
+        return projectPath != null || projectPath != "";
     }
 
     public void displayNameAndPath()
@@ -43,9 +58,15 @@ public class StatusController : MonoBehaviour
 
     public void branch_out(string hotspot_name)
     {
-        //string relative_path = Path.Combine("Branches", hotspot_name);
         projectName = Path.Combine(projectName, hotspot_name);
         projectPath = Path.Combine(projectPath, hotspot_name);
+        displayNameAndPath();
+    }
+
+    public void branch_into(string hotspot)
+    {
+        projectName = init_project_name + hotspot;
+        projectPath = init_project_path + hotspot;
         displayNameAndPath();
     }
 

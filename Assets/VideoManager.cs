@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
+using System.IO;
 #if UNITY_STANDALONE_WIN
 using AnotherFileBrowser.Windows;
 #endif
@@ -22,9 +23,11 @@ public class VideoManager : MonoBehaviour
     public long getFrame() { return videoPlayer.frame; }
 
     public void loadVideo(string new_url){
-        videoPlayer.url = new_url;
-        videoPlayer.Prepare();
-        videoPlayer.Play(); 
+        if (File.Exists(new_url)) { 
+            videoPlayer.url = new_url;
+            videoPlayer.Prepare();
+            videoPlayer.Play();
+        }
     }
 
     public void removeVideo()
@@ -46,6 +49,17 @@ public class VideoManager : MonoBehaviour
     {
         loadVideo(video_url);
         videoPlayer.frame = aim_frame;
+    }
+
+    public void loadVideoAtTime(double aim_time, string video_url)
+    {
+        loadVideo(video_url);
+        videoPlayer.frame = (long)(aim_time / videoPlayer.length * videoPlayer.frameCount);
+    }
+
+    public void goToPosinTime(double aim_time)
+    {
+        videoPlayer.frame = (long)(aim_time / videoPlayer.length * videoPlayer.frameCount);
     }
 
     public void getVideo()

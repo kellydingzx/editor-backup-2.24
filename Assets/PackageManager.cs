@@ -20,7 +20,9 @@ public class PackageManager : MonoBehaviour
     public VideoManager videoManager;
     public Warning warningController;
     public Controller controller;
-    
+    public Window_Graph window_Graph;
+    public TimelineController timelineController;
+
     private string root_folder;
 
     void Start(){
@@ -30,8 +32,12 @@ public class PackageManager : MonoBehaviour
 
     public void start_newProject(){
          root_folder = browse_folder();
-         packageNameInputPanel.SetActive(true); 
-         packageControlPanel.SetActive(false);
+         if(root_folder != "" && root_folder != null)
+         {
+            packageNameInputPanel.SetActive(true);
+            packageControlPanel.SetActive(false);
+         }
+         
     }
 
     public void save_name()
@@ -39,6 +45,7 @@ public class PackageManager : MonoBehaviour
         string project_name = packageNameInputField.GetComponent<InputField>().text;
         packageNameInputPanel.SetActive(false);
         string project_path = create_folder(project_name);
+        controller.please_load();
         statusController.setNameAndPath(project_name, project_path);
     }
 
@@ -54,15 +61,22 @@ public class PackageManager : MonoBehaviour
         string project_path = browse_folder();
         string project_name = Path.GetFileName(project_path);
         statusController.setNameAndPath(project_name, project_path);
-        Debug.Log(project_name);
-        string main_video_path = System.IO.Path.Combine(project_path,"MainVideo.mp4");
-        if(File.Exists(@main_video_path))
+        if (project_path != "" && project_path != null)
         {
-            videoManager.loadVideo(main_video_path);
-            controller.please_load();
-        }else{
-            warningController.displayErrorMessage("Please add a main video.");
-        } 
+            string main_video_path = System.IO.Path.Combine(project_path, "MainVideo.mp4");
+            if (File.Exists(@main_video_path))
+            {
+                videoManager.loadVideo(main_video_path);
+                controller.please_load();
+            }
+            else
+            {
+                warningController.displayErrorMessage("Please add a main video.");
+            }
+            window_Graph.ClearGraph();
+            window_Graph.MainBranch("main");
+            timelineController.draw(statusController.getPath(), 150, 100, 100, 1950);
+        }
     }
 
     public void create_SubElems(string folder_url){
@@ -112,6 +126,11 @@ public class PackageManager : MonoBehaviour
         {
             selected_path = path;
         });
+
+        if(selected_path == "" || selected_path == null)
+        {
+            warningController.displayErrorMessage("Path not available.");
+        }
 
         return selected_path;
     }

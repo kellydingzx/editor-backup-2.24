@@ -99,7 +99,7 @@ public class InputPanelControl : MonoBehaviour
         textInputField.GetComponent<InputField>().text = hot_text;
         photoUrlDisplay.GetComponent<Text>().text = hot_url_photo;
         //display Photo
-        if (hot_url_photo != "")
+        if (hot_url_photo != "" && hot_url_photo != null)
         {   
             string new_photo_url = System.IO.Path.Combine(statusController.getPath(), hot_url_photo);
             loadVideoOntoPanel(new_photo_url);

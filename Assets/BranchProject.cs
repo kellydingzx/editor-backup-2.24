@@ -14,6 +14,7 @@ public class BranchProject : MonoBehaviour
     public PackageManager packageManager;
     public VideoManager videoManager;
     public Warning warningController;
+    public TimelineController timelineController;
 
     public GameObject backButton;
 
@@ -29,35 +30,56 @@ public class BranchProject : MonoBehaviour
 
     public void create_branch()
     {
+        string current_id = inputpanelcontrol.getCurrentID();
         string hotspot_name = inputpanelcontrol.getName();
-        //string relative_path = Path.Combine("Branches", hotspot_name);
         string project_Path = Path.Combine(statusController.getPath(), hotspot_name);
         Directory.CreateDirectory(project_Path);
         packageManager.create_SubElems(project_Path);
-        //Create the baseline for the new branch
+        controller.recordBranch(current_id);
     }
 
     public void goToBranch()
     {
         string hotspot_name = inputpanelcontrol.getName();
         floor_count++;
+        //Store status data before branch
         prev_video_frame = videoManager.getFrame();
         prev_tramsform = controller.getTransformByID(inputpanelcontrol.getCurrentID());
+        controller.saveJson();
+        videoManager.removeVideo();
+        controller.removeAllHotspots();
+        inputpanelcontrol.closeWindow();
+        //Branch and load data
         statusController.branch_out(hotspot_name);
         string current_path = statusController.getPath();
         string mainVideo_path = Path.Combine(current_path, "MainVideo.mp4");
         if (File.Exists(mainVideo_path)){
             videoManager.loadVideo(mainVideo_path);
-            controller.please_load();
         }else
         {
             warningController.displayErrorMessage("Please add a Main Video.");
         }
-        controller.saveJson();
-        videoManager.removeVideo();
-        controller.removeAllHotspots();
-        inputpanelcontrol.closeWindow();
+        controller.please_load();
         backButton.SetActive(true);
+    }
+
+    public void branchOutbyNode(string relative_path, Vector3 location, double start_time)
+    {
+        
+        string intendedPath = timelineController.getRoot() + relative_path;
+        Debug.Log(intendedPath);
+        if(!intendedPath.Equals(statusController.getPath()))
+        {
+            videoManager.removeVideo();
+            controller.removeAllHotspots();
+            statusController.branch_into(relative_path);
+            Debug.Log(relative_path);
+            string mainVideo_path = Path.Combine(statusController.getPath(), "MainVideo.mp4");
+            videoManager.loadVideo(mainVideo_path);
+            controller.please_load();
+        }
+        Camera.main.transform.LookAt(location);
+        videoManager.goToPosinTime(start_time);
     }
 
     public void backPreviousBranch()
