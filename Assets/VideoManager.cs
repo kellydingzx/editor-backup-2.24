@@ -59,6 +59,7 @@ public class VideoManager : MonoBehaviour
 
     public void goToPosinTime(double aim_time)
     {
+        Debug.Log(videoPlayer.frameCount);
         videoPlayer.frame = (long)(aim_time / videoPlayer.length * videoPlayer.frameCount);
     }
 

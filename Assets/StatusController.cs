@@ -81,4 +81,14 @@ public class StatusController : MonoBehaviour
     {
         return Path.Combine(projectPath, "MainVideo.mp4");
     }
+
+    public string getRootProjectName()
+    {
+        return init_project_name;
+    }
+
+    public string getRootProjectPath()
+    {
+        return init_project_path;
+    }
 }

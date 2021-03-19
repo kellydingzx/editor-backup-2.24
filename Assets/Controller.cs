@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Runtime;
-using System.Collections.Generic;
-using System.IO;
 using System.IO.Compression;
+using System.IO;
+using System.Collections;
+using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -325,13 +324,14 @@ public class Controller : MonoBehaviour
             hotspots_loaded = true;
         }
     }
-    /*
-    public void saveCustom(string path) {
-        ZipFile.CreateFromDirectory(path, Path.GetDirectoryName(path));
-        
+   
+    public void saveCustom() {
+        ZipFile.CreateFromDirectory(statusController.getRootProjectPath(), statusController.getRootProjectName());
     }
+
     public void loadCustom(string path) {
         ZipFile.ExtractToDirectory(path, Path.GetDirectoryName(path));
     }
-    */
+   
+   
 }

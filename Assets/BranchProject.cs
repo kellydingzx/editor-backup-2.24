@@ -70,6 +70,7 @@ public class BranchProject : MonoBehaviour
         Debug.Log(intendedPath);
         if(!intendedPath.Equals(statusController.getPath()))
         {
+            //controller.saveJson();
             videoManager.removeVideo();
             controller.removeAllHotspots();
             statusController.branch_into(relative_path);
