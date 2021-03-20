@@ -627,6 +627,9 @@
  <Reference Include="System.IO.Compression">
  <HintPath>C:/Program Files/Unity/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/System.IO.Compression.dll</HintPath>
  </Reference>
+ <Reference Include="System.IO.Compression.FileSystem">
+ <HintPath>C:/Program Files/Unity/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/System.IO.Compression.FileSystem.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEditor.UI">
  <HintPath>D:/Desktop/SC360VideoEditor/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>

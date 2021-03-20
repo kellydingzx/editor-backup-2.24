@@ -59,6 +59,7 @@
      <Compile Include="Assets\Contact_Window.cs" />
      <Compile Include="Assets\Controller.cs" />
      <Compile Include="Assets\FileManager.cs" />
+     <Compile Include="Assets\FinalDelivery.cs" />
      <Compile Include="Assets\HotspotsStatus.cs" />
      <Compile Include="Assets\InputPanelControl.cs" />
      <Compile Include="Assets\Look_Around.cs" />
@@ -67,6 +68,7 @@
      <Compile Include="Assets\Scripts\ChooseFile.cs" />
      <Compile Include="Assets\Scripts\DragEventHandler.cs" />
      <Compile Include="Assets\Scripts\FileBrowser.cs" />
+     <Compile Include="Assets\Scripts\HelpInfo.cs" />
      <Compile Include="Assets\Scripts\HighlightMgr.cs" />
      <Compile Include="Assets\Scripts\JSONHelper.cs" />
      <Compile Include="Assets\Scripts\RegionData.cs" />
@@ -632,6 +634,9 @@
  </Reference>
  <Reference Include="System.IO.Compression">
  <HintPath>C:/Program Files/Unity/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/System.IO.Compression.dll</HintPath>
+ </Reference>
+ <Reference Include="System.IO.Compression.FileSystem">
+ <HintPath>C:/Program Files/Unity/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/System.IO.Compression.FileSystem.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/Desktop/SC360VideoEditor/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>

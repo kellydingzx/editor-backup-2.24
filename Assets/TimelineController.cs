@@ -54,9 +54,10 @@ public class TimelineController : MonoBehaviour
                 timeline_dictionary.Add(tree_node_id, helper);
                 if ((h.url_video != null) && (h.url_video != ""))
                 {
-                    window_Graph.CreateDotConnection(new Vector2(xpos, stemY), new Vector2(xpos, stemY + gap), h.name);
-                    window_Graph.CreateDotConnection(new Vector2(xpos, stemY + gap), new Vector2(endX, stemY + gap), h.name + "l");
-                    draw(Path.Combine(path, h.name), stemY + gap, (gap / 2), xpos, endX);
+                    float gap2 = (float)(gap * (1 - (h.start_time / videoLength)));
+                    window_Graph.CreateDotConnection(new Vector2(xpos, stemY), new Vector2(xpos, stemY + gap2), h.name);
+                    window_Graph.CreateDotConnection(new Vector2(xpos, stemY + gap2), new Vector2(endX, stemY + gap2), h.name + "l");
+                    draw(Path.Combine(path, h.name), stemY + gap2, (gap / 2), xpos, endX);
                 }
             }
 

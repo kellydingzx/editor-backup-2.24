@@ -24,6 +24,7 @@ public class PackageManager : MonoBehaviour
     public TimelineController timelineController;
 
     private string root_folder;
+    private bool enable = false;
 
     void Start(){
         packageNameInputPanel.SetActive(false);
@@ -96,7 +97,13 @@ public class PackageManager : MonoBehaviour
     }
 
     public void open_package_control_panel(){
-        packageControlPanel.SetActive(true);
+        if (enable == false) {
+            packageControlPanel.SetActive(true);
+            enable = true;
+        } else {
+            packageControlPanel.SetActive(false);
+            enable = false;
+        }
     }
 
     public string addMainVideo(string url){

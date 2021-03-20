@@ -325,13 +325,10 @@ public class Controller : MonoBehaviour
         }
     }
    
-    public void saveCustom() {
-        ZipFile.CreateFromDirectory(statusController.getRootProjectPath(), statusController.getRootProjectName());
-    }
-
+    /*
     public void loadCustom(string path) {
         ZipFile.ExtractToDirectory(path, Path.GetDirectoryName(path));
     }
    
-   
+   */
 }
