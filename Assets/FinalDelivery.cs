@@ -16,7 +16,7 @@ public class FinalDelivery : MonoBehaviour
         string zip_path = Directory.GetParent(statusController.getRootProjectPath()).FullName;
         string zip_file_fullpath = Path.Combine(zip_path, statusController.getRootProjectName() + ".zip");
         Debug.Log(zip_file_fullpath);
-        ZipFile.CreateFromDirectory(zip_path, zip_file_fullpath, System.IO.Compression.CompressionLevel.Fastest, false);
+        ZipFile.CreateFromDirectory(zip_path, zip_file_fullpath);
     }
 
 }

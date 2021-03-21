@@ -25,7 +25,7 @@ public class TimelineController : MonoBehaviour
         if (recur_depth == 0) rootpath = path;
 
         string assumed_videopath = Path.Combine(path, "MainVideo.mp4");
-        if (File.Exists(@assumed_videopath) && recur_depth < 2)
+        if (File.Exists(@assumed_videopath) && recur_depth < 3)
         {
             recur_depth++;
             string json_path = System.IO.Path.Combine(path, "hotspots.json");

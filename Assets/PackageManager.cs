@@ -81,18 +81,15 @@ public class PackageManager : MonoBehaviour
     }
 
     public void create_SubElems(string folder_url){
-        //string videos_folder_path = System.IO.Path.Combine(folder_url, "Branches");
-        //if(!Directory.Exists(@videos_folder_path)){
-        //    System.IO.Directory.CreateDirectory(videos_folder_path);
-        //}
         string pics_folder_path = System.IO.Path.Combine(folder_url, "Pictures");
         if(!Directory.Exists(@pics_folder_path)){
             System.IO.Directory.CreateDirectory(pics_folder_path);
         }
         string json_path = System.IO.Path.Combine(folder_url, "hotspots.json");
         if(!File.Exists(@json_path)){           
-            File.Create(json_path).Dispose();
+            File.Create(json_path).Close();
             controller.save(new Hashtable(), folder_url);
+
         }
     }
 

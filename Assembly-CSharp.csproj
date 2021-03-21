@@ -60,7 +60,6 @@
      <Compile Include="Assets\Controller.cs" />
      <Compile Include="Assets\FileManager.cs" />
      <Compile Include="Assets\FinalDelivery.cs" />
-     <Compile Include="Assets\HotspotsStatus.cs" />
      <Compile Include="Assets\InputPanelControl.cs" />
      <Compile Include="Assets\Look_Around.cs" />
      <Compile Include="Assets\PackageManager.cs" />

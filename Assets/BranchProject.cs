@@ -45,6 +45,7 @@ public class BranchProject : MonoBehaviour
         //Store status data before branch
         prev_video_frame = videoManager.getFrame();
         prev_tramsform = controller.getTransformByID(inputpanelcontrol.getCurrentID());
+        inputpanelcontrol.saveHotspotInfo();
         controller.saveJson();
         videoManager.removeVideo();
         controller.removeAllHotspots();
@@ -60,7 +61,7 @@ public class BranchProject : MonoBehaviour
             warningController.displayErrorMessage("Please add a Main Video.");
         }
         controller.please_load();
-        backButton.SetActive(true);
+        backButton.SetActive(true);   
     }
 
     public void branchOutbyNode(string relative_path, Vector3 location, double start_time)
