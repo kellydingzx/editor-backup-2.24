@@ -35,7 +35,7 @@ public class BranchProject : MonoBehaviour
         string project_Path = Path.Combine(statusController.getPath(), hotspot_name);
         Directory.CreateDirectory(project_Path);
         packageManager.create_SubElems(project_Path);
-        controller.recordBranch(current_id);
+        controller.recordBranch(current_id, hotspot_name);
     }
 
     public void goToBranch()

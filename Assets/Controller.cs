@@ -61,11 +61,12 @@ public class Controller : MonoBehaviour
             a.name = a.GetInstanceID().ToString();
             all_hotspots.Add(a.name, new Hotspot(a, start_time,videoPlayer.length));
             a.SetActive(true);
+            //save(all_hotspots, statusController.getPath());
             //window_Graph.CreateDotConnection(new Vector2((float)((videoPlayer.time/videoPlayer.length)*1850+100), 150),new Vector2((float)((videoPlayer.time/videoPlayer.length)*1850+100)+100,150+100),a.GetInstanceID().ToString());
             //window_Graph.CreateCircle(new Vector2((float)((videoPlayer.time/videoPlayer.length)*1850+100)+100,150+100),a.GetInstanceID().ToString()+"c");
-            window_Graph.ClearGraph();
-            window_Graph.MainBranch("main");
-            timelineController.draw(statusController.getPath(), 150, 100, 100, 1950);
+            //window_Graph.ClearGraph();
+            //window_Graph.MainBranch("main");
+            //timelineController.draw(timelineController.getRoot(), 150, 100, 100, 1950);
         }
 
         //View hotspot on left click
@@ -81,6 +82,13 @@ public class Controller : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void Redraw()
+    {
+        window_Graph.ClearGraph();
+        window_Graph.MainBranch("main");
+        timelineController.draw(timelineController.getRoot(), 150, 100, 100, 1950);
     }
 
     public void checkHotspotValidity() //check the validity of hotspot in terms of time
@@ -100,10 +108,11 @@ public class Controller : MonoBehaviour
         }
     }
 
-    public void recordBranch(string id)
+    public void recordBranch(string id, string branch_name)
     {
         Hotspot current_hotspot = (Hotspot)all_hotspots[id];
         current_hotspot.SetBranch();
+        current_hotspot.SetName(branch_name);
         all_hotspots[id] = current_hotspot;
     }
 
@@ -118,11 +127,8 @@ public class Controller : MonoBehaviour
     {
         double hs_start_time = hs.getStart();
         videoPlayer.Prepare();
-        Debug.Log(videoPlayer.frameCount);
-        Debug.Log(videoPlayer.frameRate);
         long location_frame = Convert.ToInt64(hs_start_time / (videoPlayer.frameCount / videoPlayer.frameRate)* videoPlayer.frameCount)+5;
         videoPlayer.frame = location_frame;
-        Debug.Log(location_frame);
         Camera.main.transform.LookAt(hs.getHotspot().transform);
     }
 
@@ -133,8 +139,11 @@ public class Controller : MonoBehaviour
 
     public void saveJson()
     {
+        timelineController.resetRecurDepth();
         save(all_hotspots, statusController.getPath());
         warningController.displayErrorMessage("Saved.");
+        Redraw();
+        //timelineController.draw(timelineController.getRoot(), 150, 100, 100, 1950);
     }
 
 
@@ -209,6 +218,7 @@ public class Controller : MonoBehaviour
             this.name = name;
             this.text = text;
             this.url_photo = url_photo;
+            this.url_video = url_video;
         }
         public double getStart()
         {
@@ -251,11 +261,11 @@ public class Controller : MonoBehaviour
                 this.url_photo = url_photo;
             }
         }
-
         public void SetBranch()
         {
             this.url_video = this.name;
         }
+        public void SetName(string new_name) { this.url_video = new_name; }
     }
     
     public class HotspotDatas
@@ -301,6 +311,7 @@ public class Controller : MonoBehaviour
         string json = JsonUtility.ToJson(hotspotdatas);
         string json_path = System.IO.Path.Combine(json_folder, "hotspots.json");
         File.WriteAllText(json_path, json);
+        Debug.Log("Saved");
     }
 
     public void load()

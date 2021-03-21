@@ -25,11 +25,13 @@ public class TimelineController : MonoBehaviour
         if (recur_depth == 0) rootpath = path;
 
         string assumed_videopath = Path.Combine(path, "MainVideo.mp4");
+        Debug.Log(assumed_videopath);
         if (File.Exists(@assumed_videopath) && recur_depth < 3)
         {
             recur_depth++;
             string json_path = System.IO.Path.Combine(path, "hotspots.json");
-            string hotspotjsons = System.IO.File.ReadAllText(json_path);
+            Debug.Log(json_path);
+            string hotspotjsons = System.IO.File.ReadAllText(@json_path);
             HotspotDatas hotspotdatas = JsonUtility.FromJson<HotspotDatas>(hotspotjsons);
             double largest_end = 10;
             foreach (string json in hotspotdatas.hotspotdatas)
@@ -52,16 +54,22 @@ public class TimelineController : MonoBehaviour
                 }
                 GotoHelper helper = new GotoHelper(relative_path, h.worldPosition, h.start_time);
                 timeline_dictionary.Add(tree_node_id, helper);
+                Debug.Log(h.url_video);
                 if ((h.url_video != null) && (h.url_video != ""))
                 {
                     float gap2 = (float)(gap * (1 - (h.start_time / videoLength)));
                     window_Graph.CreateDotConnection(new Vector2(xpos, stemY), new Vector2(xpos, stemY + gap2), h.name);
                     window_Graph.CreateDotConnection(new Vector2(xpos, stemY + gap2), new Vector2(endX, stemY + gap2), h.name + "l");
-                    draw(Path.Combine(path, h.name), stemY + gap2, (gap / 2), xpos, endX);
+                    draw(@Path.Combine(path, h.name), stemY + gap2, (gap / 2), xpos, endX);
                 }
             }
 
         }
+    }
+
+    public void resetRecurDepth()
+    {
+        recur_depth = 0;
     }
 
     public string getRoot()

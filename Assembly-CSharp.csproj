@@ -60,6 +60,7 @@
      <Compile Include="Assets\Controller.cs" />
      <Compile Include="Assets\FileManager.cs" />
      <Compile Include="Assets\FinalDelivery.cs" />
+     <Compile Include="Assets\HelpPanel.cs" />
      <Compile Include="Assets\InputPanelControl.cs" />
      <Compile Include="Assets\Look_Around.cs" />
      <Compile Include="Assets\PackageManager.cs" />
@@ -67,7 +68,6 @@
      <Compile Include="Assets\Scripts\ChooseFile.cs" />
      <Compile Include="Assets\Scripts\DragEventHandler.cs" />
      <Compile Include="Assets\Scripts\FileBrowser.cs" />
-     <Compile Include="Assets\Scripts\HelpInfo.cs" />
      <Compile Include="Assets\Scripts\HighlightMgr.cs" />
      <Compile Include="Assets\Scripts\JSONHelper.cs" />
      <Compile Include="Assets\Scripts\RegionData.cs" />
