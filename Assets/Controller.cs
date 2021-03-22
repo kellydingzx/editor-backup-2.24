@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
 
+//Controller for the editor - deal with functions related to hotspots.
 public class Controller : MonoBehaviour
 {
     public VideoPlayer videoPlayer;
@@ -35,7 +36,7 @@ public class Controller : MonoBehaviour
 
     void Update(){
 
-        if (videoPlayer.isPrepared && (videoPlayer.length != 0))
+        if (!videoPlayer.url.Equals(null) && !videoPlayer.url.Equals(""))
         {
             addingAndViewingHotspots();
         }
@@ -61,12 +62,6 @@ public class Controller : MonoBehaviour
             a.name = a.GetInstanceID().ToString();
             all_hotspots.Add(a.name, new Hotspot(a, start_time,videoPlayer.length));
             a.SetActive(true);
-            //save(all_hotspots, statusController.getPath());
-            //window_Graph.CreateDotConnection(new Vector2((float)((videoPlayer.time/videoPlayer.length)*1850+100), 150),new Vector2((float)((videoPlayer.time/videoPlayer.length)*1850+100)+100,150+100),a.GetInstanceID().ToString());
-            //window_Graph.CreateCircle(new Vector2((float)((videoPlayer.time/videoPlayer.length)*1850+100)+100,150+100),a.GetInstanceID().ToString()+"c");
-            //window_Graph.ClearGraph();
-            //window_Graph.MainBranch("main");
-            //timelineController.draw(timelineController.getRoot(), 150, 100, 100, 1950);
         }
 
         //View hotspot on left click
@@ -84,6 +79,7 @@ public class Controller : MonoBehaviour
         }
     }
 
+    //Redraw the timeline when hotspots are saved to json from the hashtable.
     public void Redraw()
     {
         window_Graph.ClearGraph();
@@ -137,13 +133,20 @@ public class Controller : MonoBehaviour
         return ((Hotspot)all_hotspots[hotspot_id]).getHotspot().transform;
     }
 
+
     public void saveJson()
     {
         timelineController.resetRecurDepth();
         save(all_hotspots, statusController.getPath());
         warningController.displayErrorMessage("Saved.");
         Redraw();
-        //timelineController.draw(timelineController.getRoot(), 150, 100, 100, 1950);
+    }
+
+    public void saveJsonWithoutNotice()
+    {
+        timelineController.resetRecurDepth();
+        save(all_hotspots, statusController.getPath());
+        Redraw();
     }
 
 
@@ -174,6 +177,20 @@ public class Controller : MonoBehaviour
         videoPlayer.Play();
     }
 
+    public void renameBranch(string id)
+    {
+        Hotspot current_hotspot = (Hotspot)all_hotspots[id];
+        if (!current_hotspot.getUrl_video().Equals(null) && !current_hotspot.getName().Equals(current_hotspot.getUrl_video()))
+        {
+            string root_path = statusController.getPath();
+            string prev_branch = Path.Combine(root_path, current_hotspot.getUrl_video());
+            string aft_branch = Path.Combine(root_path, current_hotspot.getName());
+            Directory.Move(prev_branch, aft_branch);
+            current_hotspot.SetBranch();
+        }
+        all_hotspots[id] = current_hotspot;
+    }
+
     public void removeAllHotspots()
     {
         hotspots_loaded = false;
@@ -190,9 +207,10 @@ public class Controller : MonoBehaviour
 
     void OnApplicationQuit()
     {
-        //if(statusController.path_ready()){ saveJson();}
+        if(statusController.path_ready()){ saveJson();}
     }
 
+    //Data structure used to store relative details to the hotspot object.
     public class Hotspot
     {
         GameObject hotspot;
@@ -268,6 +286,7 @@ public class Controller : MonoBehaviour
         public void SetName(string new_name) { this.url_video = new_name; }
     }
     
+    //Data structure used to help with reading data from json.
     public class HotspotDatas
     {
         public string[] hotspotdatas;
@@ -294,6 +313,8 @@ public class Controller : MonoBehaviour
             rot = _hotspot.transform.rotation;
         }
     }
+
+    //Save hotspots to json file.
     public void save(Hashtable a, string json_folder)
     {
         Debug.Log("Saving");
@@ -314,6 +335,7 @@ public class Controller : MonoBehaviour
         Debug.Log("Saved");
     }
 
+    //Load hotspots from json file.
     public void load()
     {
         all_hotspots = new Hashtable();

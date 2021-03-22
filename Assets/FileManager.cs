@@ -37,7 +37,8 @@ public class FileManager : MonoBehaviour
     private string url_old_video;
     private Vector3 camera_pos;
 
-    public void choosePhoto() //need renamed to choose photo
+    //Used for the choose photo button on input panel.
+    public void choosePhoto() 
     {
         photo_path = OpenFileBrowser();
         if (photo_path != null)

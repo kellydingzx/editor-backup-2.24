@@ -48,6 +48,7 @@ public class PackageManager : MonoBehaviour
         string project_path = create_folder(project_name);
         controller.please_load();
         statusController.setNameAndPath(project_name, project_path);
+        timelineController.setRootPath(project_path);
     }
 
     private string create_folder(string project_name)
@@ -80,6 +81,7 @@ public class PackageManager : MonoBehaviour
         }
     }
 
+    //Create the default folders in the file system.
     public void create_SubElems(string folder_url){
         string pics_folder_path = System.IO.Path.Combine(folder_url, "Pictures");
         if(!Directory.Exists(@pics_folder_path)){

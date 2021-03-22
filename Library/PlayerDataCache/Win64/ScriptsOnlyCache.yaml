@@ -6,6 +6,8 @@ ScriptsOnlyBuild:
     - Controller
     - DragEventHandler
     - FileManager
+    - FinalDelivery
+    - HelpPanel
     - InputPanelControl
     - Look_Around
     - PackageManager
@@ -21,8 +23,6 @@ ScriptsOnlyBuild:
     - spriteBehavior
     DOTween.dll:
     - DG.Tweening.Core.DOTweenSettings
-    Unity.CollabProxy.Editor.dll:
-    - UnityEditor.CollabToolbarWindow
     Unity.Rider.Editor.dll:
     - Packages.Rider.Editor.UnitTesting.CallbackData
     Unity.TextMeshPro.dll:
@@ -74,13 +74,15 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11276}
     - Class: 114
-      Script: {instanceID: 11300}
+      Script: {instanceID: 11298}
     - Class: 114
-      Script: {instanceID: 11466}
+      Script: {instanceID: 11464}
     - Class: 114
-      Script: {instanceID: 11498}
+      Script: {instanceID: 11496}
     - Class: 114
-      Script: {instanceID: 11508}
+      Script: {instanceID: 11506}
+    - Class: 114
+      Script: {instanceID: 11558}
     - Class: 114
       Script: {instanceID: 11662}
     - Class: 114
@@ -88,7 +90,9 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11688}
     - Class: 114
-      Script: {instanceID: 11704}
+      Script: {instanceID: 11690}
+    - Class: 114
+      Script: {instanceID: 11706}
     - Class: 114
       Script: {instanceID: 11778}
     - Class: 114
@@ -142,9 +146,9 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 13210}
     - Class: 114
-      Script: {instanceID: 47734}
+      Script: {instanceID: 20048}
     - Class: 114
-      Script: {instanceID: 47736}
+      Script: {instanceID: 20050}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -166,8 +170,6 @@ ScriptsOnlyBuild:
     - Class: 225
       Script: {instanceID: 0}
     - Class: 328
-      Script: {instanceID: 0}
-    - Class: 329
       Script: {instanceID: 0}
   scriptHashData:
   - hash:
@@ -274,6 +276,12 @@ ScriptsOnlyBuild:
     className: TMP_InputField
   - hash:
       serializedVersion: 2
+      Hash: 5c44d0ed1d0aeeef47899978043c1b4b
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: HelpPanel
+  - hash:
+      serializedVersion: 2
       Hash: 7ab0e790220bdca831fdd886b339039d
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
@@ -322,6 +330,12 @@ ScriptsOnlyBuild:
     className: AnimationTrack
   - hash:
       serializedVersion: 2
+      Hash: dc394be41f7ecc9f4a91ce264b707a4a
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: FinalDelivery
+  - hash:
+      serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
@@ -350,12 +364,6 @@ ScriptsOnlyBuild:
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TMP_SubMeshUI
-  - hash:
-      serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: HotspotsStatus
   - hash:
       serializedVersion: 2
       Hash: b098e24f819a00b30a3c08175d0c0511

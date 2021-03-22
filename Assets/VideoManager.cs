@@ -7,8 +7,7 @@ using System.IO;
 using AnotherFileBrowser.Windows;
 #endif
 
-
-
+//Contains functions related to the video player that would be commonly used.
 public class VideoManager : MonoBehaviour
 {
     public VideoPlayer videoPlayer;
@@ -23,7 +22,8 @@ public class VideoManager : MonoBehaviour
     public long getFrame() { return videoPlayer.frame; }
 
     public void loadVideo(string new_url){
-        if (File.Exists(new_url)) { 
+        if (File.Exists(new_url)) {
+            videoPlayer.enabled = true;
             videoPlayer.url = new_url;
             videoPlayer.Prepare();
             videoPlayer.Play();
@@ -33,6 +33,7 @@ public class VideoManager : MonoBehaviour
     public void removeVideo()
     {
         videoPlayer.Stop();
+        videoPlayer.enabled = false;
     }
 
     public double videoLength()
@@ -54,16 +55,16 @@ public class VideoManager : MonoBehaviour
     public void loadVideoAtTime(double aim_time, string video_url)
     {
         loadVideo(video_url);
-        videoPlayer.frame = (long)(aim_time / videoPlayer.length * videoPlayer.frameCount);
+        videoPlayer.time = aim_time;
     }
 
     public void goToPosinTime(double aim_time)
     {
         Debug.Log(videoPlayer.frameCount);
-        videoPlayer.frame = (long)(aim_time / videoPlayer.length * videoPlayer.frameCount);
+        videoPlayer.time = aim_time;
     }
 
-    public void getVideo()
+    public void getVideo() 
     {
         url = OpenFileBrowser("mp4");
         string new_url = packageManager.GetComponent<PackageManager>().addMainVideo(url);

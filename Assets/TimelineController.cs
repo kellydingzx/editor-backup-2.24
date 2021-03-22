@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 
+//This file draws the timeline on the timeline panel.
 public class TimelineController : MonoBehaviour
 {
     public Window_Graph window_Graph;
@@ -18,7 +19,7 @@ public class TimelineController : MonoBehaviour
         timeline_dictionary = new Hashtable();
     }
 
-    public void draw(string path, float stemY, float gap, float startX, float endX)
+    public void draw(string path, float stemY, float gap, float startX, float endX) // This function draws the timeline recursively.
     {
         Debug.Log(path);
         float videoLength = 0;
@@ -67,15 +68,29 @@ public class TimelineController : MonoBehaviour
         }
     }
 
+    //This function set the root path where the draw function starts the drawing.
+    //This function is used by the package manager, where the user starts the new project.
+    public void setRootPath(string root_path) 
+    {
+        rootpath = root_path;
+    }
+
+
+    //This function is used when the timeline is redrawed by the save button.
+    //The recursion flag is set to 0.
     public void resetRecurDepth()
     {
         recur_depth = 0;
     }
 
+    //This function is used when the timeline is redrawed by the save button.
     public string getRoot()
     {
         return rootpath;
     }
+
+    //The follwing functions are used for when click on the node on the timeline.
+    //Each of them gets the information accordingly for the openwindow1().
     public string getPathByID(string node_id)
     {
         return getHelper(node_id).pathBranch;
@@ -85,18 +100,17 @@ public class TimelineController : MonoBehaviour
     {
         return getHelper(node_id).start_time;
     }
-
     public Vector3 getWorldPositionByID(string node_id)
     {
         return getHelper(node_id).worldposition;
     }
-
     private GotoHelper getHelper(string node_id)
     {
         return (GotoHelper)timeline_dictionary[node_id];
     }
 
-    public class GotoHelper{
+    //Structure used to store the relative information needed for the openwindow1() function.
+    public class GotoHelper{ 
         public string pathBranch;
         public Vector3 worldposition;
         public double start_time;
@@ -109,6 +123,7 @@ public class TimelineController : MonoBehaviour
         }
     }
 
+    //Helper structure for reading the json files.
     public class HotspotDatas
     {
         public string[] hotspotdatas;
@@ -135,6 +150,8 @@ public class TimelineController : MonoBehaviour
             rot = _hotspot.transform.rotation;
         }
     }
+
+    /*
     public float VideoLength(string path)
     {
         double vidlength;
@@ -147,5 +164,6 @@ public class TimelineController : MonoBehaviour
         Destroy(h);
         return (float)vidlength;
     }
+    */
     
 }

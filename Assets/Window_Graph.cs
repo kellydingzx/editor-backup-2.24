@@ -36,7 +36,7 @@ public class Window_Graph : MonoBehaviour
     public void openWindow1(string node_id) {
         string path_needs_branched = timelineController.getPathByID(node_id);
         Vector3 needs_lookat = timelineController.getWorldPositionByID(node_id);
-        double needs_jump_to = timelineController.getStartTimeByID(node_id);
+        double needs_jump_to = timelineController.getStartTimeByID(node_id) + 1;
         branchProject.branchOutbyNode(path_needs_branched, needs_lookat, needs_jump_to);
     }
     public void CreateDotConnection(Vector2 pos1 ,Vector2 pos2,string name) {
@@ -54,7 +54,6 @@ public class Window_Graph : MonoBehaviour
         rectTransform.localEulerAngles = new Vector3(0, 0, angle);
     }
     public float MainBranch(string name) {
-        CreateCircle(new Vector2(xmin, (ymax+ymin)/2), name + "c");
         CreateDotConnection(new Vector2(xmin, (ymax+ymin)/2),new Vector2(xmax, (ymax+ymin)/2),name);
         return ((ymax+ymin)/2);
     }

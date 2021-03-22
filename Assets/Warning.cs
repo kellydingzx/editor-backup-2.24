@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+//Warning window used to give out messages from the system.
 public class Warning : MonoBehaviour
 {
     public GameObject warningPanel;

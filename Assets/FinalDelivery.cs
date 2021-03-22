@@ -6,11 +6,13 @@ using System.IO.Compression;
 using System.IO;
 using UnityEngine.Video;
 
+//The editor should deliver everything built as a package.
 public class FinalDelivery : MonoBehaviour
 {
     public StatusController statusController;
     public VideoPlayer videoPlayer;
-    public void saveCustom()
+ 
+    public void saveCustom()//This function will be called by the share button.
     {
         videoPlayer.Stop();
         string zip_path = Directory.GetParent(statusController.getRootProjectPath()).FullName;
